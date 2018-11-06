@@ -5,7 +5,7 @@ Window::Window()
 {
 	try
 	{
-		sdlWindow = SDL_CreateWindow("Foxtrot", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 500, 500, SDL_WINDOW_OPENGL);
+		sdlWindow = SDL_CreateWindow("Foxtrot", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, MAX_X, MAX_Y, SDL_WINDOW_OPENGL);
 		if (sdlWindow == nullptr)
 			throw 0;
 	}
