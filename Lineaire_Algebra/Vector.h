@@ -4,7 +4,7 @@
 class Vector
 {
 	public:
-		Vector(double length, double direction);
+		Vector(double direction, double length);
 		~Vector();
 
 	private:
