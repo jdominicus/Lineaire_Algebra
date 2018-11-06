@@ -1,6 +1,8 @@
 
 #define SDL_MAIN_HANDLED
 #include "Graphics.h"
+#include "Graph.h"
+#include "Vector.h"
 
 #include <iostream>
 #include <memory>
@@ -8,17 +10,16 @@
 int main()
 {
 	auto graphics = std::make_unique<Graphics>();
+	auto graph = std::make_unique<Graph>();
+
+	graph->addVector(std::make_unique<Vector>());
 
 	while (true)
 	{
 		graphics->beforeFrame();
 
-		graphics->update();
-		graphics->drawRect(0, 0, 100, 100);
-		graphics->drawRect(100, 100, 100, 100);
-		graphics->drawRect(200, 200, 100, 100);
-		graphics->drawRect(300, 300, 100, 100);
-		graphics->drawRect(400, 400, 100, 100);
+		graphics->clear();
+		graph->draw(*graphics);
 		graphics->update();
 
 		graphics->afterFrame();
