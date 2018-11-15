@@ -2,8 +2,8 @@
 
 #include <SDL2/SDL.h>
 
-#define MAX_X 500
-#define MAX_Y 500
+#define MAX_X 800
+#define MAX_Y 800
 #define OORSPRONG_X MAX_X/2
 #define OORSPRONG_Y MAX_Y/2
 
