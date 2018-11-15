@@ -20,7 +20,7 @@ int main()
 
 	//graph->scaleAll(10, true);
 	//graph->scaleAll(10, false);
-	//graph->calculateAll(*std::make_unique<Vector>(5, 5), true);
+	//graph->calculateAll(*std::make_unique<Vector>(30, 30), true);
 	//graph->calculateAll(*std::make_unique<Vector>(5, 5), false);
 	//hierboven worden de 4 verschillende berekeningen met vectoren allemaal getest
 
