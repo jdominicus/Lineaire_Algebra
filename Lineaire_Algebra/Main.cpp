@@ -29,7 +29,6 @@ int main()
 		graphics->beforeFrame();
 
 		graphics->clear();
-		//graph->draw(*graphics);
 		graphics->drawAxis();
 		graph->drawVectors(*graphics);
 		graphics->update();
