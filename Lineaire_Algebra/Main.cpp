@@ -3,19 +3,20 @@
 #include "Graphics.h"
 #include "Graph.h"
 #include "Vector.h"
+#include "Matrix.h"
 
-#include <iostream>
 #include <memory>
 
 int main()
 {
 	auto graphics = std::make_unique<Graphics>();
 	auto graph = std::make_unique<Graph>();
+	auto matrix = std::make_unique<::Matrix>();
 
-	graph->addVector(std::make_unique<Vector>(100, 5));
-	graph->addVector(std::make_unique<Vector>(20, -3));
-	graph->addVector(std::make_unique<Vector>(-5, 50));
-	graph->addVector(std::make_unique<Vector>(-30, -30));
+	matrix->addVector(std::make_unique<Vector>(5, 5));
+	matrix->addVector(std::make_unique<Vector>(5, 10));
+	matrix->addVector(std::make_unique<Vector>(10, 5));
+	matrix->addVector(std::make_unique<Vector>(10, 10));
 
 	//graph->scaleAll(10, true);
 	//graph->scaleAll(10, false);
