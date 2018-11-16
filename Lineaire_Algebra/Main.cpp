@@ -13,10 +13,10 @@ int main()
 	auto graph = std::make_unique<Graph>();
 	auto matrix = std::make_unique<::Matrix>();
 
-	matrix->addVector(std::make_unique<Vector>(5, 5));
-	matrix->addVector(std::make_unique<Vector>(5, 10));
-	matrix->addVector(std::make_unique<Vector>(10, 5));
-	matrix->addVector(std::make_unique<Vector>(10, 10));
+	//graph->addVector(std::make_unique<Vector>(5, 5));
+	//graph->addVector(std::make_unique<Vector>(5, 10));
+	//graph->addVector(std::make_unique<Vector>(10, 5));
+	//graph->addVector(std::make_unique<Vector>(10, 10));
 
 	//graph->scaleAll(10, true);
 	//graph->scaleAll(10, false);
@@ -24,13 +24,24 @@ int main()
 	//graph->calculateAll(*std::make_unique<Vector>(5, 5), false);
 	//hierboven worden de 4 verschillende berekeningen met vectoren allemaal getest
 
+	matrix->addCoordinate(std::make_unique<Coordinate>(5, 5));
+	matrix->addCoordinate(std::make_unique<Coordinate>(5, 30));
+	matrix->addCoordinate(std::make_unique<Coordinate>(30, 5));
+	matrix->addCoordinate(std::make_unique<Coordinate>(30, 30));
+
+	//matrix->scale(3, true);
+	matrix->translate(-5, -5);
+	matrix->scale(5, true);
+	matrix->translate(5, 5);
+
 	while (true)
 	{
 		graphics->beforeFrame();
 
 		graphics->clear();
 		graphics->drawAxis();
-		graph->drawVectors(*graphics);
+		//graph->drawVectors(*graphics);
+		matrix->draw(*graphics);
 		graphics->update();
 
 		graphics->afterFrame();

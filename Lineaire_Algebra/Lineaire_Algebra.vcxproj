@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Coordinate.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Matrix.h" />

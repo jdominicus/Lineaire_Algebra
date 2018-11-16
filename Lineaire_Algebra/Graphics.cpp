@@ -55,8 +55,8 @@ void Graphics::update() const
 
 void Graphics::drawRect(int x, int y, int width, int height) const
 {
-	SDL_Rect rect{ x, y, width, height };
-	SDL_SetRenderDrawColor(sdlRenderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_Rect rect{ OORSPRONG_X+x, OORSPRONG_Y-y, width, height };
+	SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE);	//groen
 	SDL_RenderFillRect(sdlRenderer, &rect);
 }
 
