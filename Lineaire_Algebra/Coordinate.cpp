@@ -32,8 +32,3 @@ void Coordinate::translate(int hor, int ver)
 	x += hor;
 	y += ver;
 }
-
-void Coordinate::draw(const Graphics& graphics) const
-{
-	graphics.drawRect(x - 5, y - 5, 10, -10);
-}

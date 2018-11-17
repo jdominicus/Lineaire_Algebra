@@ -38,6 +38,6 @@ void Vector::calculate(Vector& vector, bool add)
 
 void Vector::draw(const Graphics& graphics) const
 {
-	graphics.drawLine(length, direction);
+	graphics.drawVector(length, direction);
 	//draw starting point or arrowtips
 }

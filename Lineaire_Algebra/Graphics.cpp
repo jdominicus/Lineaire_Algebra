@@ -60,11 +60,17 @@ void Graphics::drawRect(int x, int y, int width, int height) const
 	SDL_RenderFillRect(sdlRenderer, &rect);
 }
 
-void Graphics::drawLine(int x, int y) const
+void Graphics::drawVector(int x, int y) const
 {
 	SDL_SetRenderDrawColor(sdlRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);	//wit
 	SDL_RenderDrawLine(sdlRenderer, OORSPRONG_X, OORSPRONG_Y, OORSPRONG_X+x, OORSPRONG_Y-y);
 	//"OORSPRONG_X+x, OORSPRONG_Y-y" vanwege de kanteling van het geheel
+}
+
+void Graphics::drawLine(int x_src, int y_src, int x_dest, int y_dest, int r, int g, int b) const
+{
+	SDL_SetRenderDrawColor(sdlRenderer, r, g, b, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawLine(sdlRenderer, x_src + OORSPRONG_X, OORSPRONG_Y - y_src, OORSPRONG_X + x_dest, OORSPRONG_Y - y_dest);
 }
 
 void Graphics::drawAxis() const

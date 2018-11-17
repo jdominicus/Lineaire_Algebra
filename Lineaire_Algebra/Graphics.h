@@ -30,6 +30,7 @@ class Graphics
 		void clear() const;
 		void update() const;
 		void drawRect(int x, int y, int width, int height) const;
-		void drawLine(int x, int y) const;
+		void drawVector(int x, int y) const;
+		void drawLine(int x_src, int y_src, int x_dest, int y_dest, int r, int g, int b) const;
 		void drawAxis() const;
 };

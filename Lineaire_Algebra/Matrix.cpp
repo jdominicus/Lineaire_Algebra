@@ -1,4 +1,6 @@
 #include "Matrix.h"
+#include "Coordinate.h"
+#include "Graphics.h"
 
 Matrix::Matrix()
 {
@@ -6,6 +8,12 @@ Matrix::Matrix()
 
 Matrix::~Matrix()
 {
+}
+
+Matrix::Matrix(const Matrix& other)
+{
+	for (auto& c : other.coordinates)
+		coordinates.emplace_back(std::make_unique<Coordinate>(c->getCoordinate().x, c->getCoordinate().y));
 }
 
 void Matrix::addCoordinate(std::unique_ptr<Coordinate> coordinate)
@@ -29,13 +37,23 @@ void Matrix::translate(int hor, int ver)
 	}
 }
 
-void Matrix::draw(const Graphics& graphics) const
+void Matrix::draw(const Graphics& graphics, int r, int g, int b) const
 {
+	Coordinate* pC = nullptr;
+	Coordinate* sC = nullptr;
+
 	for (auto& c : coordinates)
 	{
-		c->draw(graphics);
+		if (pC == nullptr)
+		{
+			sC = pC = c.get();
+		}
+		else
+		{
+			graphics.drawLine(pC->getCoordinate().x, pC->getCoordinate().y, c->getCoordinate().x, c->getCoordinate().y, r, g, b);
+			pC = c.get();
+		}
 	}
 
-	coordinates[0]->getCoordinate().x;	//used for drawing lines in between
-	coordinates[0]->getCoordinate().y;
+	graphics.drawLine(pC->getCoordinate().x, pC->getCoordinate().y, sC->getCoordinate().x, sC->getCoordinate().y, r, g, b);
 }
