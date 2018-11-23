@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Graphics.h"
 
 struct punt
@@ -14,11 +15,14 @@ class Coordinate
 
 	private:
 		int x, y;
+		int xSpawn, ySpawn;
+		int degrees;
 
 	public:
 		punt getCoordinate();
 		void scale(int x, bool multiply);
 		void translate(int hor, int ver);
-		void draw(const Graphics& graphics) const;
+		void rotate(int degrees);
+		double degreesToRadians(int degrees);
 };
 

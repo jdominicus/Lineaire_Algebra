@@ -37,6 +37,14 @@ void Matrix::translate(int hor, int ver)
 	}
 }
 
+void Matrix::rotate(int degrees)
+{
+	for (auto& c : coordinates)
+	{
+		c->rotate(degrees);
+	}
+}
+
 void Matrix::draw(const Graphics& graphics, int r, int g, int b) const
 {
 	Coordinate* pC = nullptr;
