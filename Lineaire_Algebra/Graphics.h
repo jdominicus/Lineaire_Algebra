@@ -31,6 +31,6 @@ class Graphics
 		void update() const;
 		void drawRect(int x, int y, int width, int height) const;
 		void drawVector(int x, int y) const;
-		void drawLine(int x_src, int y_src, int x_dest, int y_dest, int r, int g, int b) const;
+		void drawLine(int x_src, int y_src, int x_dest, int y_dest, int r = 255, int g = 255, int b = 255) const;
 		void drawAxis() const;
 };

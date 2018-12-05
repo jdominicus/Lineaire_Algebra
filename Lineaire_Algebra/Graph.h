@@ -3,8 +3,10 @@
 #include <vector>
 #include <memory>
 
-class Vector;
 class Graphics;
+
+template <typename T>
+class Vector;
 
 class Graph
 {
@@ -13,12 +15,10 @@ class Graph
 		~Graph();
 
 	private:
-		std::vector<std::unique_ptr<Vector>> vectors;
+		std::vector<std::unique_ptr<Vector<int>>> vectors;
 
 	public:
-		void addVector(std::unique_ptr<Vector> vector);
+		void addVector(std::unique_ptr<Vector<int>> vector);
 		void drawVectors(const Graphics& graphics) const;
-		void scaleAll(int x, bool multiply);
-		void calculateAll(Vector& vector, bool add);
 };
 

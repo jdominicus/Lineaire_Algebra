@@ -10,31 +10,13 @@ Graph::~Graph()
 {
 }
 
-void Graph::addVector(std::unique_ptr<Vector> vector)
+void Graph::addVector(std::unique_ptr<Vector<int>> vector)
 {
 	vectors.emplace_back(std::move(vector));
 }
 
 void Graph::drawVectors(const Graphics& graphics) const
 {
-	for (auto& v : vectors)
-	{
+	for (auto&& v : vectors)
 		v->draw(graphics);
-	}
-}
-
-void Graph::scaleAll(int x, bool multiply)
-{
-	for (auto& v : vectors)
-	{
-		v->scale(x, multiply);
-	}
-}
-
-void Graph::calculateAll(Vector & vector, bool add)
-{
-	for (auto& v : vectors)
-	{
-		v->calculate(vector, add);
-	}
 }

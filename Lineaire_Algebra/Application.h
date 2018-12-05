@@ -6,8 +6,13 @@
 
 class EventManager;
 class Graphics;
-class Matrix;
 class Graph;
+
+template <typename T>
+class Shape;
+
+template <typename T>
+class Matrix;
 
 class Application : public ApplicationListener
 {
@@ -24,12 +29,8 @@ class Application : public ApplicationListener
 		std::unique_ptr<EventManager> eventManager;
 		std::unique_ptr<Graphics> graphics;
 
-		std::unique_ptr<Matrix> matrix;
-		std::unique_ptr<Matrix> matrix_2;
-		std::unique_ptr<Matrix> matrix_3;
-		std::unique_ptr<Matrix> matrix_4;
-		std::unique_ptr<Matrix> matrix_5;
-
+		std::unique_ptr<Matrix<int>> matrix;
 		std::unique_ptr<Graph> graph;
+		std::unique_ptr<Shape<float>> s1;
 };
 
