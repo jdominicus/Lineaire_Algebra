@@ -4,6 +4,12 @@
 #include <map>
 #include <memory>
 #include <utility>
+#include <iostream>
+
+#include "Vector.h"
+#include "Matrix.h"
+#include "TranslationMatrix.h"
+#include "ScalingMatrix.h"
 
 template <typename>
 class Vector;
@@ -17,15 +23,18 @@ class Shape
 		~Shape();
 		void addVector(std::unique_ptr<Vector<T>> vector);
 		void addConnection(int index_1, int index_2);
-		void scaleFromOrigin(float x, float y);
-		void scaleInPlace(T x, T y);
-		void translate(float x, float y);
+		void scaleFromOrigin(T x, T y, T z);
+		void scaleInPlace(T x, T y, T z);
+		void translate(T x, T y, T z);
 		void rotate(T radians);
+		void updateMidPoint();
+		void printMidPoint() const;
 		void draw(Graphics& graphics);
 
 	private:
 		std::vector<std::unique_ptr<Vector<T>>> vectors;
-		std::map<Vector<T>*, Vector<T>*> connections;
+		std::multimap<Vector<T>*, Vector<T>*> connections;
+		std::unique_ptr<Vector<T>> midPoint;
 };
 
 template <typename T>
@@ -52,56 +61,40 @@ void Shape<T>::addConnection(int index_1, int index_2)
 }
 
 template <typename T>
-void Shape<T>::scaleFromOrigin(float x, float y)
+void Shape<T>::scaleFromOrigin(T x, T y, T z)
 {
-	Matrix<T> m(2, 2);
-	m(0, 0) = x;
-	m(1, 1) = y;
+	ScalingMatrix<T> s(4, 4, x, y, x);
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = m * *(it->get());
+		*(it->get()) = s * *(it->get());
+
+	updateMidPoint();
 }
 
 template <typename T>
-void Shape<T>::scaleInPlace(T x, T y)
+void Shape<T>::scaleInPlace(T x, T y, T z)
 {
-	Matrix<T> translation(3, 3);
-	translation(0, 0) = 1;
-	translation(1, 1) = 1;
-	translation(2, 2) = 1;
-	translation(0, 2) = -75;
-	translation(1, 2) = -75;
+	TranslationMatrix<T> t1(4, 4, -midPoint->getX(), -midPoint->getY(), -midPoint->getZ());
+	ScalingMatrix<T> s(4, 4, x, y, x);
+	TranslationMatrix<T> t2(4, 4, midPoint->getX(), midPoint->getY(), midPoint->getZ());
 
-	Matrix<T> scale(3, 3);
-	scale(0, 0) = x;
-	scale(1, 1) = y;
-	scale(2, 2) = 1;
-
-	Matrix<T> translation2(3, 3);
-	translation2(0, 0) = 1;
-	translation2(1, 1) = 1;
-	translation2(2, 2) = 1;
-	translation2(0, 2) = 75;
-	translation2(1, 2) = 75;
-
-	Matrix<T> p = translation2 * scale * translation;
+	Matrix<T> p = t2 * s * t1;
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		*(it->get()) = p * *(it->get());
+
+	updateMidPoint();
 }
 
 template <typename T>
-void Shape<T>::translate(float x, float y)
+void Shape<T>::translate(T x, T y, T z)
 {
-	Matrix<T> m(3, 3);
-	m(0, 0) = 1;
-	m(1, 1) = 1;
-	m(2, 2) = 1;
-	m(0, 2) = x;
-	m(1, 2) = y;
+	TranslationMatrix<T> t1(4, 4, x, y, z);
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = m * *(it->get());
+		*(it->get()) = t1 * *(it->get());
+
+	updateMidPoint();
 }
 
 template <typename T>
@@ -119,9 +112,26 @@ void Shape<T>::rotate(T radians)
 }
 
 template <typename T>
+void Shape<T>::updateMidPoint()
+{
+	T y = vectors.at(4)->getY() + vectors.at(0)->getY() * 0.25;
+	T x = (vectors.at(1)->getX() + vectors.at(0)->getX()) / 2;
+	T z = (vectors.at(2)->getZ() + vectors.at(1)->getZ()) / 2;
+
+	midPoint = std::make_unique<Vector<T>>(x, y, z);
+}
+
+template <typename T>
+void Shape<T>::printMidPoint() const
+{
+	if (midPoint)
+	std::cout << midPoint.get()->getX() << " " << midPoint.get()->getY() << " " << midPoint.get()->getZ() << std::endl;
+}
+
+template <typename T>
 void Shape<T>::draw(Graphics& graphics)
 {
 	for (auto it = connections.begin(); it != connections.end(); ++it)
-		graphics.drawLine(it->first->getLenght(), it->first->getDirection(), it->second->getLenght(), it->second->getDirection());
+		graphics.drawLine(it->first->getX(), it->first->getY(), it->first->getZ(), it->second->getX(), it->second->getY(), it->second->getZ());
 }
 

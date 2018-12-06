@@ -4,8 +4,10 @@
 
 #define MAX_X 600
 #define MAX_Y 600
+#define MAX_Z 600
 #define OORSPRONG_X MAX_X/2
 #define OORSPRONG_Y MAX_Y/2
+#define OORSPRONG_Z MAX_Z/2
 
 class Window
 {

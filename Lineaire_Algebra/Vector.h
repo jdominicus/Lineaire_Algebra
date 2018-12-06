@@ -9,13 +9,14 @@ template <typename T>
 class Vector
 {
 	public:
-		Vector(T length, T direction);
+		Vector(T x, T y, T z);
 		Vector(const Vector<T>& other);
 		Vector(const Matrix<T>& other);
 		
 	private:
-		T length;
-		T direction;
+		T x;
+		T y;
+		T z;
 
 		template <typename>
 		friend class Matrix;
@@ -39,42 +40,38 @@ class Vector
 		friend std::ostream& operator<<(std::ostream& stream, const Vector<U>& other);
 
 		void draw(const Graphics& graphics) const;
-		const T& getLenght() const;
-		const T& getDirection() const;
+		const T& getX() const;
+		const T& getY() const;
+		const T& getZ() const;
 };
 
 template<typename T>
-Vector<T>::Vector(T length, T direction) : length{ length }, direction{ direction }
+Vector<T>::Vector(T x, T y, T z) : x{ x }, y{ y }, z{ z }
 {
 }
 
 template<typename T>
 Vector<T>::Vector(const Vector<T>& other)
 {
-	this->direction = other.direction;
-	this->length = other.length;
+	y = other.y;
+	x = other.x;
+	z = other.z;
 }
 
 template<typename T>
 Vector<T>::Vector(const Matrix<T>& other)
 {
-	if (other.rows > 2)
-	{
-		this->length = other(0, 0);
-		this->direction = other(1, 0);
-	}
-	else
-	{
-		this->lenght = 0;
-		this->direction = 0;
-	}
+	x = other(0, 0);
+	y = other(1, 0);
+	z = other(2, 0);
 }
 
 template<typename T>
 Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 {
-	this->length = other.length;
-	this->direction = other.direction;
+	x = other.x;
+	y = other.y;
+	z = other.z;
 	return *this;
 }
 
@@ -82,96 +79,111 @@ template<typename T>
 Vector<T> Vector<T>::operator+(const Vector<T>& other)
 {
 	Vector v = *this;
-	v.length += other.length;
-	v.direction += other.direction;
+	v.x += other.x;
+	v.y += other.y;
+	v.z += other.z;
 	return v;
 }
 
 template<typename T>
 void Vector<T>::operator+=(const Vector<T>& other)
 {
-	length += other.length;
-	direction += other.direction;
+	x += other.x;
+	y += other.y;
+	z += other.z;
 }
 
 template<typename T>
 Vector<T> Vector<T>::operator-(const Vector<T>& other)
 {
 	Vector v = *this;
-	v.length -= other.length;
-	v.direction -= other.direction;
+	v.x -= other.x;
+	v.y -= other.y;
+	v.z -= other.z;
 	return v;
 }
 
 template<typename T>
 void Vector<T>::operator-=(const Vector<T>& other)
 {
-	length -= other.length;
-	direction -= other.direction;
+	x -= other.x;
+	y -= other.y;
+	z -= other.z;
 }
 
 template<typename T>
 Vector<T> Vector<T>::operator*(const T& other)
 {
 	Vector v = *this;
-	v.length *= other;
-	v.direction *= other;
+	v.x *= other;
+	v.y *= other;
+	v.z *= other;
 	return v;
 }
 
 template<typename T>
 void Vector<T>::operator*=(const T& other)
 {
-	length *= other;
-	direction *= other;
+	x *= other;
+	y *= other;
+	z *= other;
 }
 
 template<typename T>
 Vector<T> Vector<T>::operator/(const T& other)
 {
 	Vector v = *this;
-	v.length /= other;
-	v.direction /= other;
+	v.x /= other;
+	v.y /= other;
+	v.z /= other;
 	return v;
 }
 
 template<typename T>
 void Vector<T>::operator/=(const T& other)
 {
-	length /= other;
-	direction /= other;
+	x /= other;
+	y /= other;
+	z /= other;
 }
 
 template<typename T>
 Vector<T> operator*(const T& number, const Vector<T>& other)
 {
-	other.length *= number;
-	other.direction *= number;
+	other.x *= number;
+	other.y *= number;
+	other.z *= number;
 }
 
 template<typename T>
 std::ostream& operator<<(std::ostream& stream, const Vector<T>& other)
 {
-	stream << other.length << " " << other.direction;
+	stream << other.x << " " << other.y << " " << other.z;
 	return stream;
 }
 
 template<typename T>
 void Vector<T>::draw(const Graphics& graphics) const
 {
-	graphics.drawVector((int)length, (int)direction);
+	graphics.drawVector((int)x, (int)y, (int)z);
 }
 
 template<typename T>
-const T& Vector<T>::getLenght() const
+const T& Vector<T>::getX() const
 {
-	return length;
+	return x;
 }
 
 template<typename T>
-const T& Vector<T>::getDirection() const
+const T& Vector<T>::getY() const
 {
-	return direction;
+	return y;
+}
+
+template<typename T>
+const T& Vector<T>::getZ() const
+{
+	return z;
 }
 
 

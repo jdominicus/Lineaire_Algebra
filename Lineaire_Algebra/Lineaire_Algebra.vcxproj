@@ -26,7 +26,6 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="KeyEvent.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -39,7 +38,9 @@
     <ClInclude Include="KeyEvent.h" />
     <ClInclude Include="KeyListener.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="ScalingMatrix.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="TranslationMatrix.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

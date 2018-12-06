@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ApplicationListener.h"
+#include "KeyListener.h"
 
 #include <memory>
 
@@ -14,7 +15,7 @@ class Shape;
 template <typename T>
 class Matrix;
 
-class Application : public ApplicationListener
+class Application : public ApplicationListener, public KeyListener
 {
 	public:
 		Application();
@@ -23,6 +24,9 @@ class Application : public ApplicationListener
 		void quit();
 		void render();
 		void update();
+
+		void onKeyDown(KeyEvent& keyEvent);
+		void onKeyUp(KeyEvent& keyEvent);
 
 	private:
 		bool running;

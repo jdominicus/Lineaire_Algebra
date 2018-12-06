@@ -14,6 +14,7 @@ class Matrix
 		Matrix();
 		Matrix(int n, int m);
 		Matrix(const Matrix<T>& other);
+		virtual ~Matrix();
 
 		T& operator()(int n, int m);
 		const T& operator()(int n, int m) const;
@@ -44,7 +45,7 @@ class Matrix
 		template<typename U>
 		friend std::ostream& operator<<(std::ostream& stream, const Matrix<U>& other);
 
-	private:
+	protected:
 		int rows;
 		int collumns;
 		std::vector<T> elements;
@@ -68,6 +69,11 @@ Matrix<T>::Matrix(const Matrix<T>& other)
 	this->elements = other.elements;
 	this->rows = other.rows;
 	this->collumns = other.collumns;
+}
+
+template <typename T>
+Matrix<T>::~Matrix()
+{
 }
 
 template <typename T>
@@ -253,14 +259,15 @@ template <typename T>
 Vector<T> Matrix<T>::operator*(const Vector<T>& other)
 {
 	Matrix<T> m(this->rows, 1);
-	m(0, 0) = other.length;
-	m(0, 1) = other.direction;
+	m(0, 0) = other.x;
+	m(0, 1) = other.y;
+	m(0, 2) = other.z;
 
-	for (int i = 2; i < this->rows; i++)
+	for (int i = 3; i < this->rows; i++)
 		m(0, i) = 1;
 
 	Matrix<T> n = *this * m;
-	return Vector<T>(n(0, 0), n(0, 1));
+	return Vector<T>(n(0, 0), n(0, 1), n(0, 2));
 }
 
 template <typename T>
