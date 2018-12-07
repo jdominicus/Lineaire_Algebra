@@ -79,6 +79,9 @@
     <ClInclude Include="ScalingMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RotationMatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Lineaire_Algebra.aps" />

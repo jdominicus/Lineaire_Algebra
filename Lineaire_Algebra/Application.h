@@ -35,6 +35,8 @@ class Application : public ApplicationListener, public KeyListener
 
 		std::unique_ptr<Matrix<int>> matrix;
 		std::unique_ptr<Graph> graph;
-		std::unique_ptr<Shape<float>> s1;
+		std::unique_ptr<Shape<double>> s1;
+
+		const double pi = 3.14159265359;
 };
 

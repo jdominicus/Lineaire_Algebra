@@ -38,6 +38,7 @@
     <ClInclude Include="KeyEvent.h" />
     <ClInclude Include="KeyListener.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="RotationMatrix.h" />
     <ClInclude Include="ScalingMatrix.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="TranslationMatrix.h" />
