@@ -71,8 +71,6 @@ void Application::update()
 
 void Application::onKeyDown(KeyEvent& keyEvent)
 {
-	Vector<double> v(*s1->getVector());
-
 	switch (keyEvent.key())
 	{
 		case KeyEvent::Space:
@@ -88,10 +86,10 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			s1->rotateFromOrigin(-2 * pi / 30);
 			break;
 		case KeyEvent::F1:
-			s1->rotateInPlace(2 * pi / 30, 0, 0);
+			s1->rotateInPlace(2 * pi / 4, 0, 0);
 			break;
 		case KeyEvent::F2:
-			s1->rotateInPlace(-2 * pi / 30, 0, 0);
+			s1->rotateInPlace(-2 * pi / 4, 0, 0);
 			break;
 	}
 }
