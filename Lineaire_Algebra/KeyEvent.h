@@ -5,7 +5,7 @@
 class KeyEvent : public Event
 {
 public:
-	enum Key { Left, Right, Up, Down, Space, Escape, P, F1, F2 };
+	enum Key { Left, Right, Up, Down, Space, Escape, P, F1, F2, F3, F4, F5, F6 };
 
 	KeyEvent(const SDL_Event& sdlKeyEvent);
 	~KeyEvent();

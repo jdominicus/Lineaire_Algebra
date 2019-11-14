@@ -13,6 +13,10 @@ KeyEvent::KeyEvent(const SDL_Event& sdlKeyEvent)
 		case SDLK_p: key_ = P; break;
 		case SDLK_F1: key_ = F1; break; 
 		case SDLK_F2: key_ = F2; break;
+		case SDLK_F3: key_ = F3; break;
+		case SDLK_F4: key_ = F4; break;
+		case SDLK_F5: key_ = F5; break;
+		case SDLK_F6: key_ = F6; break;
 	}
 }
 

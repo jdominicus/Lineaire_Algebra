@@ -92,6 +92,18 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 		case KeyEvent::F2:
 			s1->rotateInPlace(-2 * pi / 16, 0, 0);
 			break;
+		case KeyEvent::F3:
+			s1->scaleFromPoint(2, 2, 2, 250, 250, 250);
+			break;
+		case KeyEvent::F4:
+			s1->scaleFromPoint(0.5f, 0.5f, 0.5f, 250, 250, 250);
+			break;
+		case KeyEvent::F5:
+			
+			break;
+		case KeyEvent::F6:
+			
+			break;
 	}
 }
 

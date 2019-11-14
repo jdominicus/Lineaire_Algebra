@@ -23,17 +23,24 @@ class Shape
 	public:
 		Shape();
 		~Shape();
+
 		void addVector(std::unique_ptr<Vector<T>> vector);
 		void addConnection(int index_1, int index_2);
+
 		Vector<T>* getReferencePoint();
 		void setReferencePoint();
 		void updateReferencePoint();
+
 		void scaleFromOrigin(T x, T y, T z);
 		void scaleInPlace(T x, T y, T z);
+		void scaleFromPoint(T x, T y, T z, T x_pos, T y_pos, T z_pos);
+		
 		void translate(T x, T y, T z);
+		
 		void rotateX(T radians);
 		void rotateY(T radians);
 		void rotateZ(T radians);
+		
 		void rotateFromOrigin(T radians);
 		void rotateInPlace(T x, T y, T z);
 		void draw(Graphics& graphics);
@@ -113,6 +120,21 @@ void Shape<T>::scaleInPlace(T x, T y, T z)
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		*(it->get()) = p * *(it->get());
 		
+	updateReferencePoint();
+}
+
+template <typename T>
+void Shape<T>::scaleFromPoint(T x, T y, T z, T x_pos, T y_pos, T z_pos)
+{
+	TranslationMatrix<T> t1(4, 4, -x_pos, -y_pos, -z_pos);
+	ScalingMatrix<T> s(4, 4, x, y, x);
+	TranslationMatrix<T> t2(4, 4, x_pos, y_pos, z_pos);
+
+	Matrix<T> p = t2 * s * t1;
+
+	for (auto it = vectors.begin(); it != vectors.end(); ++it)
+		* (it->get()) = p * *(it->get());
+
 	updateReferencePoint();
 }
 
