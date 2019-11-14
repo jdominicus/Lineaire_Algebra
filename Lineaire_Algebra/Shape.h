@@ -31,18 +31,13 @@ class Shape
 		void setReferencePoint();
 		void updateReferencePoint();
 
-		void scaleFromOrigin(T x, T y, T z);
 		void scaleInPlace(T x, T y, T z);
-		void scaleFromPoint(T x, T y, T z, T x_pos, T y_pos, T z_pos);
+		void scaleFromPoint(T x, T y, T z, const Vector<T>& point);
+			
+		void rotateInPlace(T radians, char axis);
+		void rotateAroundPoint(T radians, char axis, const Vector<T>& point);
+		void rotateAroundAxis(T radians, const Vector<T>& point_1, const Vector<T>& point_2);
 		
-		void translate(T x, T y, T z);
-		
-		void rotateX(T radians);
-		void rotateY(T radians);
-		void rotateZ(T radians);
-		
-		void rotateFromOrigin(T radians);
-		void rotateInPlace(T x, T y, T z);
 		void draw(Graphics& graphics);
 
 	private:
@@ -98,129 +93,78 @@ void Shape<T>::updateReferencePoint()
 }
 
 template <typename T>
-void Shape<T>::scaleFromOrigin(T x, T y, T z)
-{
-	ScalingMatrix<T> s(4, 4, x, y, x);
-
-	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = s * *(it->get());
-
-	updateReferencePoint();
-}
-
-template <typename T>
 void Shape<T>::scaleInPlace(T x, T y, T z)
 {
 	TranslationMatrix<T> t1(4, 4, -referencePoint->getX(), -referencePoint->getY(), -referencePoint->getZ());
-	ScalingMatrix<T> s(4, 4, x, y, x);
+	ScalingMatrix<T> s1(4, 4, x, y, x);
 	TranslationMatrix<T> t2(4, 4, referencePoint->getX(), referencePoint->getY(), referencePoint->getZ());
 
-	Matrix<T> p = t2 * s * t1;
+	Matrix<T> m = t2 * s1 * t1;
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = p * *(it->get());
+		**it = m * **it;
 		
 	updateReferencePoint();
 }
 
 template <typename T>
-void Shape<T>::scaleFromPoint(T x, T y, T z, T x_pos, T y_pos, T z_pos)
+void Shape<T>::scaleFromPoint(T x, T y, T z, const Vector<T>& point)
 {
-	TranslationMatrix<T> t1(4, 4, -x_pos, -y_pos, -z_pos);
-	ScalingMatrix<T> s(4, 4, x, y, x);
-	TranslationMatrix<T> t2(4, 4, x_pos, y_pos, z_pos);
+	TranslationMatrix<T> t1(4, 4, -point.getX(), -point.getY(), -point.getZ());
+	ScalingMatrix<T> s1(4, 4, x, y, x);
+	TranslationMatrix<T> t2(4, 4, point.getX(), point.getY(), point.getZ());
 
-	Matrix<T> p = t2 * s * t1;
+	Matrix<T> m = t2 * s1 * t1;
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		* (it->get()) = p * *(it->get());
+		**it = m * **it;
 
 	updateReferencePoint();
 }
 
 template <typename T>
-void Shape<T>::translate(T x, T y, T z)
+void Shape<T>::rotateInPlace(T radians, char axis)
 {
-	TranslationMatrix<T> t1(4, 4, x, y, z);
+	TranslationMatrix<T> t1(4, 4, -referencePoint->getX(), -referencePoint->getY(), -referencePoint->getZ());
+	RotationMatrix<T> r1(4, 4, radians, axis);
+	TranslationMatrix<T> t2(4, 4, referencePoint->getX(), referencePoint->getY(), referencePoint->getZ());
+
+	Matrix<T> m = t2 * r1 * t1;
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = t1 * *(it->get());
+		** it = m * **it;
 
 	updateReferencePoint();
 }
 
 template <typename T>
-void Shape<T>::rotateX(T radians)
+void Shape<T>::rotateAroundPoint(T radians, char axis, const Vector<T>& point)
 {
-	RotationMatrix<T> r1(4, 4, radians, 'X');
+	TranslationMatrix<T> t1(4, 4, -point.getX(), -point.getY(), -point.getZ());
+	RotationMatrix<T> r1(4, 4, radians, axis);
+	TranslationMatrix<T> t2(4, 4, point.getX(), point.getY(), point.getZ());
+
+	Matrix<T> m = t2 * r1 * t1;
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = r1 * *(it->get());
+		** it = m * **it;
 
 	updateReferencePoint();
 }
 
 template <typename T>
-void Shape<T>::rotateY(T radians)
+void rotateAroundAxis(T radians, const Vector<T>& point_1, const Vector<T>& point_2)
 {
-	RotationMatrix<T> r1(4, 4, radians, 'Y');
+	/*TranslationMatrix<T> t1(4, 4, -point.getX(), -point.getY(), -point.getZ());
+	RotationMatrix<T> r1(4, 4, radians, axis);
+	TranslationMatrix<T> t2(4, 4, point.getX(), point.getY(), point.getZ());
+
+	Matrix<T> m = t2 * r1 * t1;
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = r1 * *(it->get());
+		** it = m * **it;
 
-	updateReferencePoint();
-}
-
-template <typename T>
-void Shape<T>::rotateZ(T radians)
-{
-	RotationMatrix<T> r1(4, 4, radians, 'Z');
-
-	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = r1 * *(it->get());
-
-	updateReferencePoint();
-}
-
-template <typename T>
-void Shape<T>::rotateFromOrigin(T radians)
-{
-	Vector<T> v(*vectors.at(4).get());
-
-	T length = sqrt(pow(v.getZ(), 2) + pow(v.getX(), 2));
-
-	T angleA = atan2(v.getZ(), v.getX());
-	T angleB = (-atan2(v.getY(), length));
-
-	RotationMatrix<T> r1(4, 4, angleA, 'Y');
-	RotationMatrix<T> r2(4, 4, angleB, 'Z');
-	RotationMatrix<T> r3(4, 4, radians, 'X');
-	RotationMatrix<T> r4(4, 4, -angleB, 'Z');
-	RotationMatrix<T> r5(4, 4, -angleA, 'Y');
-
-	Matrix<T> r = r5 * r4 * r3 * r2 * r1;
-
-	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = r * *(it->get());
-
-	updateReferencePoint();
-}
-
-template <typename T>
-void Shape<T>::rotateInPlace(T x, T y, T z)
-{
-	TranslationMatrix<T> r1(4, 4, -referencePoint->getX(), -referencePoint->getY(), -referencePoint->getZ());
-	//RotationMatrix<T> r2(4, 4, x, 'X');
-	RotationMatrix<T> r3(4, 4, x, 'Z');
-	//RotationMatrix<T> r4(4, 4, z, 'Z');
-	TranslationMatrix<T> r5(4, 4, referencePoint->getX(), referencePoint->getY(), referencePoint->getZ());
-
-	Matrix<T> r = r5 * r3 * r1;
-
-	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		*(it->get()) = r * *(it->get());
-
-	updateReferencePoint();
+	updateReferencePoint();*/
 }
 
 template <typename T>

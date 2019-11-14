@@ -81,28 +81,28 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 		case KeyEvent::Down:
 			s1->scaleInPlace(0.5f, 0.5f, 0.5f); break;
 		case KeyEvent::Left:
-			s1->rotateFromOrigin(2 * pi / 30);
+			//s1->rotateFromOrigin(2 * pi / 30);
 			break;
 		case KeyEvent::Right:
-			s1->rotateFromOrigin(-2 * pi / 30);
+			//s1->rotateFromOrigin(-2 * pi / 30);
 			break;
 		case KeyEvent::F1:
-			s1->rotateInPlace(2 * pi / 16, 0, 0);
+			s1->rotateAroundPoint(2 * pi / 16, 'Z', *(std::make_unique<Vector<double>>(0, 0, 0)));
 			break;
 		case KeyEvent::F2:
-			s1->rotateInPlace(-2 * pi / 16, 0, 0);
+			s1->rotateAroundPoint(-2 * pi / 16, 'Z', *(std::make_unique<Vector<double>>(0, 0, 0)));
 			break;
 		case KeyEvent::F3:
-			s1->scaleFromPoint(2, 2, 2, 250, 250, 250);
+			s1->rotateInPlace(2 * pi / 16, 'Z');
 			break;
 		case KeyEvent::F4:
-			s1->scaleFromPoint(0.5f, 0.5f, 0.5f, 250, 250, 250);
+			s1->rotateInPlace(-2 * pi / 16, 'Z');
 			break;
 		case KeyEvent::F5:
-			
+			s1->scaleFromPoint(2, 2, 2, *(std::make_unique<Vector<double>>(250, 250, 250)));
 			break;
 		case KeyEvent::F6:
-			
+			s1->scaleFromPoint(0.5f, 0.5f, 0.5f, *(std::make_unique<Vector<double>>(250, 250, 250)));
 			break;
 	}
 }
