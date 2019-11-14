@@ -30,6 +30,7 @@ Application::Application() : running{ true }
 	s1->addConnection(1, 4);
 	s1->addConnection(2, 4);
 	s1->addConnection(3, 4);
+	s1->setReferencePoint();
 }
 
 Application::~Application()
@@ -86,10 +87,10 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			s1->rotateFromOrigin(-2 * pi / 30);
 			break;
 		case KeyEvent::F1:
-			s1->rotateInPlace(2 * pi / 4, 0, 0);
+			s1->rotateInPlace(2 * pi / 16, 0, 0);
 			break;
 		case KeyEvent::F2:
-			s1->rotateInPlace(-2 * pi / 4, 0, 0);
+			s1->rotateInPlace(-2 * pi / 16, 0, 0);
 			break;
 	}
 }

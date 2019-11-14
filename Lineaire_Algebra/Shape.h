@@ -26,6 +26,7 @@ class Shape
 		void addVector(std::unique_ptr<Vector<T>> vector);
 		void addConnection(int index_1, int index_2);
 		Vector<T>* getReferencePoint();
+		void setReferencePoint();
 		void updateReferencePoint();
 		void scaleFromOrigin(T x, T y, T z);
 		void scaleInPlace(T x, T y, T z);
@@ -59,7 +60,6 @@ template <typename T>
 void Shape<T>::addVector(std::unique_ptr<Vector<T>> vector)
 {
 	vectors.emplace_back(std::move(vector));
-	updateReferencePoint();
 }
 
 template <typename T>
@@ -76,46 +76,18 @@ Vector<T>* Shape<T>::getReferencePoint()
 }
 
 template <typename T>
+void Shape<T>::setReferencePoint()
+{
+	updateReferencePoint();
+}
+
+template <typename T>
 void Shape<T>::updateReferencePoint()
 {
-	if (!vectors.empty())
-	{
-		std::vector<T> limits;
+	auto midPointSquare = std::make_unique<Vector<T>>((vectors.at(0)->getX() + vectors.at(2)->getX()) / 2, (vectors.at(0)->getY() + vectors.at(2)->getY()) / 2, (vectors.at(0)->getZ() + vectors.at(2)->getZ()) / 2); // Middle of piramid square
+	auto midPointHeight = std::make_unique<Vector<T>>((midPointSquare->getX() + vectors.at(4)->getX()) / 2, (midPointSquare->getY() + vectors.at(4)->getY()) / 2, (midPointSquare->getZ() + vectors.at(4)->getZ()) / 2); // Middle of pirmaid height
 
-		for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		{
-			if (it == vectors.begin())
-			{
-				limits.emplace_back((*it)->getX());
-				limits.emplace_back((*it)->getX());
-				limits.emplace_back((*it)->getY());
-				limits.emplace_back((*it)->getY());
-				limits.emplace_back((*it)->getZ());
-				limits.emplace_back((*it)->getZ());
-			}
-			else
-			{
-				if ((*it)->getX() < limits.at(0))
-					limits.at(0) = (*it)->getX(); 
-				if ((*it)->getX() > limits.at(1))
-					limits.at(1) = (*it)->getX();
-				if ((*it)->getY() < limits.at(2))
-					limits.at(2) = (*it)->getY();
-				if ((*it)->getY() > limits.at(3))
-					limits.at(3) = (*it)->getY();
-				if ((*it)->getZ() < limits.at(4))
-					limits.at(4) = (*it)->getZ();
-				if ((*it)->getZ() > limits.at(5))
-					limits.at(5) = (*it)->getZ();
-			}
-		}
-
-		T x_reference = (limits.at(1) - limits.at(0)) / 2 + limits.at(0);
-		T y_reference = (limits.at(3) - limits.at(2)) / 2 + limits.at(2);
-		T z_reference = (limits.at(5) - limits.at(4)) / 2 + limits.at(4);
-
-		referencePoint = std::make_unique<Vector<T>>(x_reference, y_reference, z_reference);
-	}
+	referencePoint = std::make_unique<Vector<T>>(midPointHeight->getX(), midPointHeight->getY(), midPointHeight->getZ());
 }
 
 template <typename T>
