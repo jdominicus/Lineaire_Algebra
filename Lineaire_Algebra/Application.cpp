@@ -4,6 +4,7 @@
 #include "Graph.h"
 #include "Vector.h"
 #include "Matrix.h"
+#include "Camera.h"
 #include "Shape.h"
 #include "KeyEvent.h"
 
@@ -11,6 +12,7 @@ Application::Application() : running{ true }
 {
 	eventManager = std::make_unique<EventManager>();
 	graphics = std::make_unique<Graphics>();
+	camera_ = std::make_unique<Camera<double>>();
 	eventManager->addApplicationListener(this);
 	eventManager->addKeyListener(this);
 
@@ -61,8 +63,8 @@ void Application::quit()
 
 void Application::render()
 {
-	graphics->drawAxis();
-	s1->draw(*graphics);
+	graphics->drawAxis(*camera_);
+	s1->draw(*camera_, *graphics);
 }
 
 void Application::update()
@@ -86,11 +88,23 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 		case KeyEvent::Right:
 			//s1->rotateFromOrigin(-2 * pi / 30);
 			break;
+		case KeyEvent::A:
+			camera_.get()->goLeft();
+			break;
+		case KeyEvent::W:
+			camera_.get()->goUp();
+			break;
+		case KeyEvent::S:
+			camera_.get()->goDown();
+			break;
+		case KeyEvent::D:
+			camera_.get()->goRight();
+			break;
 		case KeyEvent::F1:
-			s1->rotateAroundPoint(2 * pi / 16, 'Z', *(std::make_unique<Vector<double>>(0, 0, 0)));
+			s1->rotateAroundPoint(2 * pi / 16, 'Y', *(std::make_unique<Vector<double>>(0, 0, 0)));
 			break;
 		case KeyEvent::F2:
-			s1->rotateAroundPoint(-2 * pi / 16, 'Z', *(std::make_unique<Vector<double>>(0, 0, 0)));
+			s1->rotateAroundPoint(-2 * pi / 16, 'Y', *(std::make_unique<Vector<double>>(0, 0, 0)));
 			break;
 		case KeyEvent::F3:
 			s1->rotateInPlace(2 * pi / 16, 'Z');

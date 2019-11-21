@@ -36,6 +36,7 @@ class Shape
 			
 		void rotateInPlace(T radians, char axis);
 		void rotateAroundPoint(T radians, char axis, const Vector<T>& point);
+		void draw(Camera<T>& camera, Graphics& graphics);
 		void rotateAroundAxis(T radians, const Vector<T>& point_1, const Vector<T>& point_2);
 		
 		void draw(Graphics& graphics);
@@ -168,9 +169,9 @@ void rotateAroundAxis(T radians, const Vector<T>& point_1, const Vector<T>& poin
 }
 
 template <typename T>
-void Shape<T>::draw(Graphics& graphics)
+void Shape<T>::draw(Camera<T>& camera, Graphics& graphics)
 {
 	for (auto it = connections.begin(); it != connections.end(); ++it)
-		graphics.drawLine(it->first->getX(), it->first->getY(), it->first->getZ(), it->second->getX(), it->second->getY(), it->second->getZ());
+		graphics.drawLine(camera, it->first->getX(), it->first->getY(), it->first->getZ(), it->second->getX(), it->second->getY(), it->second->getZ());
 }
 

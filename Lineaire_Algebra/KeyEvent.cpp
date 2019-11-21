@@ -10,6 +10,10 @@ KeyEvent::KeyEvent(const SDL_Event& sdlKeyEvent)
 		case SDLK_DOWN: key_ = Down; break;
 		case SDLK_SPACE: key_ = Space; break;
 		case SDLK_ESCAPE: key_ = Escape; break;
+		case SDLK_a: key_ = A; break;
+		case SDLK_w: key_ = W; break;
+		case SDLK_s: key_ = S; break;
+		case SDLK_d: key_ = D; break;
 		case SDLK_p: key_ = P; break;
 		case SDLK_F1: key_ = F1; break; 
 		case SDLK_F2: key_ = F2; break;

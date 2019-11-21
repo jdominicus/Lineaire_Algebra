@@ -13,6 +13,9 @@ template <typename T>
 class Shape;
 
 template <typename T>
+class Camera;
+
+template <typename T>
 class Matrix;
 
 class Application : public ApplicationListener, public KeyListener
@@ -32,6 +35,7 @@ class Application : public ApplicationListener, public KeyListener
 		bool running;
 		std::unique_ptr<EventManager> eventManager;
 		std::unique_ptr<Graphics> graphics;
+		std::unique_ptr<Camera<double>> camera_;
 
 		std::unique_ptr<Matrix<int>> matrix;
 		std::unique_ptr<Graph> graph;

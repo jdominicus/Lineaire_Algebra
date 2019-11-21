@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include "Window.h"
+#include "Camera.h"
 
 #include <iostream>
 
@@ -65,27 +66,6 @@ void Graphics::drawVector(int x, int y, int z) const
 	SDL_SetRenderDrawColor(sdlRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);	//wit
 	SDL_RenderDrawLine(sdlRenderer, OORSPRONG_X, OORSPRONG_Y, OORSPRONG_X+x, OORSPRONG_Y-y);
 	//"OORSPRONG_X+x, OORSPRONG_Y-y" vanwege de kanteling van het geheel
-}
-
-void Graphics::drawLine(int x_src, int y_src, int z_src, int x_dest, int y_dest, int z_dest, int r, int g, int b) const
-{
-	SDL_SetRenderDrawColor(sdlRenderer, r, g, b, SDL_ALPHA_OPAQUE);
-
-	if (view == 0)
-		SDL_RenderDrawLine(sdlRenderer, x_src + OORSPRONG_X, OORSPRONG_Z + z_src, OORSPRONG_X + x_dest, OORSPRONG_Z + z_dest);
-
-	if (view == 1)
-		SDL_RenderDrawLine(sdlRenderer, x_src + OORSPRONG_X, OORSPRONG_Y - y_src, OORSPRONG_X + x_dest, OORSPRONG_Y - y_dest);
-	
-	if (view == 2)
-		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_Z - z_src, OORSPRONG_Y - y_src, OORSPRONG_Z - z_dest, OORSPRONG_Y - y_dest);
-}
-
-void Graphics::drawAxis() const
-{
-	SDL_SetRenderDrawColor(sdlRenderer, 255, 0, 0, SDL_ALPHA_OPAQUE);		//rood
-	SDL_RenderDrawLine(sdlRenderer, OORSPRONG_X, 0, OORSPRONG_X, MAX_Y);
-	SDL_RenderDrawLine(sdlRenderer, 0, OORSPRONG_Y, MAX_X, OORSPRONG_Y);
 }
 
 void Graphics::changeView()
