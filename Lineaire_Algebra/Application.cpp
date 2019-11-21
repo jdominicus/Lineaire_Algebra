@@ -18,18 +18,26 @@ Application::Application() : running{ true }
 
 	s1 = std::make_unique<Shape<double>>();
 	s1->addVector(std::make_unique<Vector<double>>(50, 50, 50));
-	s1->addVector(std::make_unique<Vector<double>>(100, 50, 50));
-	s1->addVector(std::make_unique<Vector<double>>(100, 50, 100));
 	s1->addVector(std::make_unique<Vector<double>>(50, 50, 100));
-	s1->addVector(std::make_unique<Vector<double>>(75, 100, 75));
+	s1->addVector(std::make_unique<Vector<double>>(100, 50, 100));
+	s1->addVector(std::make_unique<Vector<double>>(100, 50, 50));
+	s1->addVector(std::make_unique<Vector<double>>(50, 100, 50));
+	s1->addVector(std::make_unique<Vector<double>>(50, 100, 100));
+	s1->addVector(std::make_unique<Vector<double>>(100, 100, 100));
+	s1->addVector(std::make_unique<Vector<double>>(100, 100, 50));
+
 	s1->addConnection(0, 1);
 	s1->addConnection(1, 2);
 	s1->addConnection(2, 3);
 	s1->addConnection(3, 0);
+	s1->addConnection(4, 5);
+	s1->addConnection(5, 6);
+	s1->addConnection(6, 7);
+	s1->addConnection(7, 4);
 	s1->addConnection(0, 4);
-	s1->addConnection(1, 4);
-	s1->addConnection(2, 4);
-	s1->addConnection(3, 4);
+	s1->addConnection(1, 5);
+	s1->addConnection(2, 6);
+	s1->addConnection(3, 7);
 	s1->setReferencePoint();
 }
 
@@ -75,16 +83,19 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 	switch (keyEvent.key())
 	{
 		case KeyEvent::Space:
-			graphics->changeView(); break;
+			graphics->changeView(); 
+			break;
 		case KeyEvent::Up:
-			s1->scaleInPlace(2, 2, 2); break;
+			s1->scaleInPlace(2, 2, 2); 
+			break;
 		case KeyEvent::Down:
-			s1->scaleInPlace(0.5f, 0.5f, 0.5f); break;
+			s1->scaleInPlace(0.5f, 0.5f, 0.5f); 
+			break;
 		case KeyEvent::Left:
-			//s1->rotateFromOrigin(2 * pi / 30);
+			s1->rotateAroundAxis(2 * pi / 16, *(std::make_unique<Vector<double>>(0, 0, 0)), *(std::make_unique<Vector<double>>(75, 75, 100)));
 			break;
 		case KeyEvent::Right:
-			//s1->rotateFromOrigin(-2 * pi / 30);
+			s1->rotateAroundAxis(-2 * pi / 16, *(std::make_unique<Vector<double>>(0, 0, 0)), *(std::make_unique<Vector<double>>(75, 75, 100)));
 			break;
 		case KeyEvent::F1:
 			s1->rotateAroundPoint(2 * pi / 16, 'Z', *(std::make_unique<Vector<double>>(0, 0, 0)));
