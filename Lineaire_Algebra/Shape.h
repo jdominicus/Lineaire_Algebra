@@ -164,20 +164,16 @@ void Shape<T>::rotateAroundAxis(T radians, const Vector<T>& point_1, const Vecto
 	auto newVector = std::make_unique<Vector<T>>(point_2.getX() - point_1.getX(), point_2.getY() - point_1.getY(), point_2.getZ() - point_1.getZ());
 	T length = sqrt(pow(newVector->getX(), 2) + pow(newVector->getY(), 2) + pow(newVector->getZ(), 2)); // Lenght of vector
 
-	T angle_1 = atan((point_2.getX() - point_1.getX()) / point_2.getY() - point_1.getY()); // Rotation to ZY Surface
-	T angle_2 = asin((point_2.getZ() - point_1.getZ()) / length); // Rotation to Y Axis
+	T angle_1 = atan((point_2.getX() - point_1.getX()) / point_2.getY() - point_1.getY()); // Rotation to XY Surface
+	T angle_2 = asin((point_2.getY() - point_1.getY()) / length); // Rotation to X Axis
 
-	TranslationMatrix<T> t1(4, 4, -newVector->getX(), -newVector->getY(), -newVector->getZ());
-	RotationMatrix<T> r1(4, 4, angle_1, 'Z');
-	RotationMatrix<T> r2(4, 4, angle_2, 'X');
-	RotationMatrix<T> r3(4, 4, radians, 'Y');
-	RotationMatrix<T> r4(4, 4, -angle_2, 'X');
-	RotationMatrix<T> r5(4, 4, -angle_1, 'Z');
-	TranslationMatrix<T> t2(4, 4, newVector->getX(), newVector->getY(), newVector->getZ());
-
-	//T length = sqrt(pow(v, 2) + pow(v.getX(), 2));
-	//T angleA = atan2(v.getZ(), v.getX());
-	//T angleB = (-atan2(v.getY(), length));
+	TranslationMatrix<T> t1(4, 4, -point_1.getX(), -point_1.getY(), -point_1.getZ());
+	RotationMatrix<T> r1(4, 4, angle_1, 'Y');
+	RotationMatrix<T> r2(4, 4, angle_2, 'Z');
+	RotationMatrix<T> r3(4, 4, radians, 'X');
+	RotationMatrix<T> r4(4, 4, -angle_2, 'Z');
+	RotationMatrix<T> r5(4, 4, -angle_1, 'Y');
+	TranslationMatrix<T> t2(4, 4, point_1.getX(), point_1.getY(), point_1.getZ());
 
 	Matrix<T> m = t2 * r5 * r4 * r3 * r2 * r1 * t1;
 	//Matrix<T> m = t2 * r3 * t1;

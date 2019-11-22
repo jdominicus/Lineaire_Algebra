@@ -71,23 +71,14 @@ void Graphics::drawLine(int x_src, int y_src, int z_src, int x_dest, int y_dest,
 {
 	SDL_SetRenderDrawColor(sdlRenderer, r, g, b, SDL_ALPHA_OPAQUE);
 
-	/*if (view == 0)
-		SDL_RenderDrawLine(sdlRenderer, x_src + OORSPRONG_X, OORSPRONG_Z + z_src, OORSPRONG_X + x_dest, OORSPRONG_Z + z_dest);
+	if (view == 0)
+		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_X + x_src, OORSPRONG_Z + z_src, OORSPRONG_X + x_dest, OORSPRONG_Z + z_dest);
 
 	if (view == 1)
-		SDL_RenderDrawLine(sdlRenderer, x_src + OORSPRONG_X, OORSPRONG_Y - y_src, OORSPRONG_X + x_dest, OORSPRONG_Y - y_dest);
+		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_X + x_src, OORSPRONG_Y - y_src, OORSPRONG_X + x_dest, OORSPRONG_Y - y_dest);
 	
 	if (view == 2)
-		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_Z - z_src, OORSPRONG_Y - y_src, OORSPRONG_Z - z_dest, OORSPRONG_Y - y_dest);*/
-
-	if (view == 0) // TOP
-		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_X + x_src, OORSPRONG_Y + y_src, OORSPRONG_X + x_dest, OORSPRONG_Y + y_dest);
-
-	if (view == 1) // FRONT
-		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_Y + y_src, OORSPRONG_Z - z_src, OORSPRONG_Y + y_dest, OORSPRONG_Z - z_dest);
-
-	if (view == 2) // SIDE
-		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_X - x_src, OORSPRONG_Z - z_src, OORSPRONG_X - x_dest, OORSPRONG_Z - z_dest);
+		SDL_RenderDrawLine(sdlRenderer, OORSPRONG_Z - z_src, OORSPRONG_Y - y_src, OORSPRONG_Z - z_dest, OORSPRONG_Y - y_dest);
 }
 
 void Graphics::drawAxis() const
