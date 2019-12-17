@@ -4,8 +4,6 @@
 #include <memory>
 
 class Graphics;
-
-template <typename T>
 class Vector;
 
 class Graph
@@ -15,10 +13,10 @@ class Graph
 		~Graph();
 
 	private:
-		std::vector<std::unique_ptr<Vector<int>>> vectors;
+		std::vector<std::unique_ptr<Vector>> vectors;
 
 	public:
-		void addVector(std::unique_ptr<Vector<int>> vector);
+		void addVector(std::unique_ptr<Vector>vector);
 		void drawVectors(const Graphics& graphics) const;
 };
 

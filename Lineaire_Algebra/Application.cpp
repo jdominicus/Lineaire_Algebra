@@ -16,15 +16,15 @@ Application::Application() : running{ true }
 
 	graph = std::make_unique<Graph>();
 
-	s1 = std::make_unique<Shape<double>>();
-	s1->addVector(std::make_unique<Vector<double>>(50, 50, 50));
-	s1->addVector(std::make_unique<Vector<double>>(50, 50, 100));
-	s1->addVector(std::make_unique<Vector<double>>(100, 50, 100));
-	s1->addVector(std::make_unique<Vector<double>>(100, 50, 50));
-	s1->addVector(std::make_unique<Vector<double>>(50, 100, 50));
-	s1->addVector(std::make_unique<Vector<double>>(50, 100, 100));
-	s1->addVector(std::make_unique<Vector<double>>(100, 100, 100));
-	s1->addVector(std::make_unique<Vector<double>>(100, 100, 50));
+	s1 = std::make_unique<Shape>();
+	s1->addVector(std::make_unique<Vector>(50, 50, 50));
+	s1->addVector(std::make_unique<Vector>(50, 50, 100));
+	s1->addVector(std::make_unique<Vector>(100, 50, 100));
+	s1->addVector(std::make_unique<Vector>(100, 50, 50));
+	s1->addVector(std::make_unique<Vector>(50, 100, 50));
+	s1->addVector(std::make_unique<Vector>(50, 100, 100));
+	s1->addVector(std::make_unique<Vector>(100, 100, 100));
+	s1->addVector(std::make_unique<Vector>(100, 100, 50));
 
 	s1->addConnection(0, 1);
 	s1->addConnection(1, 2);
@@ -92,16 +92,16 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			s1->scaleInPlace(0.5f, 0.5f, 0.5f); 
 			break;
 		case KeyEvent::Left:
-			s1->rotateAroundAxis(2 * pi / 32, *(std::make_unique<Vector<double>>(0, 0, 0)), *(std::make_unique<Vector<double>>(100, 100, 100)));
+			s1->rotateAroundAxis(2 * pi / 32, *(std::make_unique<Vector>(-100, 1000, 50)), *(std::make_unique<Vector>(-100, 1010, 50)));
 			break;
 		case KeyEvent::Right:
-			s1->rotateAroundAxis(-2 * pi / 32, *(std::make_unique<Vector<double>>(0, 0, 0)), *(std::make_unique<Vector<double>>(100, 100, 100)));
+			s1->rotateAroundAxis(-2 * pi / 32, *(std::make_unique<Vector>(-100, 1000, 50)), *(std::make_unique<Vector>(-100, 1010, 50)));
 			break;
 		case KeyEvent::F1:
-			s1->rotateAroundPoint(2 * pi / 32, 'Y', *(std::make_unique<Vector<double>>(0, 0, 0)));
+			s1->rotateAroundPoint(2 * pi / 32, 'Y', *(std::make_unique<Vector>(0, 0, 0)));
 			break;
 		case KeyEvent::F2:
-			s1->rotateAroundPoint(-2 * pi / 32, 'Y', *(std::make_unique<Vector<double>>(0, 0, 0)));
+			s1->rotateAroundPoint(-2 * pi / 32, 'Y', *(std::make_unique<Vector>(0, 0, 0)));
 			break;
 		case KeyEvent::F3:
 			s1->rotateInPlace(2 * pi / 32, 'Y');
@@ -110,10 +110,10 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			s1->rotateInPlace(-2 * pi / 32, 'Y');
 			break;
 		case KeyEvent::F5:
-			s1->scaleFromPoint(2, 2, 2, *(std::make_unique<Vector<double>>(250, 250, 250)));
+			s1->scaleFromPoint(2, 2, 2, *(std::make_unique<Vector>(250, 250, 250)));
 			break;
 		case KeyEvent::F6:
-			s1->scaleFromPoint(0.5f, 0.5f, 0.5f, *(std::make_unique<Vector<double>>(250, 250, 250)));
+			s1->scaleFromPoint(0.5f, 0.5f, 0.5f, *(std::make_unique<Vector>(250, 250, 250)));
 			break;
 	}
 }

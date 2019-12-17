@@ -2,16 +2,14 @@
 
 #include "Matrix.h"
 
-template <typename T>
-class RotationMatrix : public Matrix<T>
+class RotationMatrix : public Matrix
 {
 public:
-	RotationMatrix<T>(int n, int m, T radians,  char rotation);
+	RotationMatrix(int n, int m, float radians,  char rotation);
 	~RotationMatrix() override;
 };
 
-template <typename T>
-RotationMatrix<T>::RotationMatrix(int n, int m, T radians, char rotation) : Matrix<T>(n, m)
+RotationMatrix::RotationMatrix(int n, int m, float radians, char rotation) : Matrix(n, m)
 {
 	for (int i = 0; i < n; i++)
 		(*this)(i, i) = 1;
@@ -39,8 +37,7 @@ RotationMatrix<T>::RotationMatrix(int n, int m, T radians, char rotation) : Matr
 	}
 }
 
-template <typename T>
-RotationMatrix<T>::~RotationMatrix()
+RotationMatrix::~RotationMatrix()
 {
 }
 

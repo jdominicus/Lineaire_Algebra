@@ -8,11 +8,7 @@
 class EventManager;
 class Graphics;
 class Graph;
-
-template <typename T>
 class Shape;
-
-template <typename T>
 class Matrix;
 
 class Application : public ApplicationListener, public KeyListener
@@ -33,9 +29,9 @@ class Application : public ApplicationListener, public KeyListener
 		std::unique_ptr<EventManager> eventManager;
 		std::unique_ptr<Graphics> graphics;
 
-		std::unique_ptr<Matrix<int>> matrix;
+		std::unique_ptr<Matrix> matrix;
 		std::unique_ptr<Graph> graph;
-		std::unique_ptr<Shape<double>> s1;
+		std::unique_ptr<Shape> s1;
 
 		const double pi = 3.14159265359;
 };

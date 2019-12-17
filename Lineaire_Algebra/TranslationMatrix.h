@@ -1,17 +1,14 @@
 #pragma once
-
 #include "Matrix.h"
 
-template <typename T>
-class TranslationMatrix : public Matrix<T>
+class TranslationMatrix : public Matrix
 {
 	public:
-		TranslationMatrix<T>(int n, int m, T x, T y, T z);
+		TranslationMatrix(int n, int m, float x, float y, float z);
 		~TranslationMatrix() override;
 };
 
-template <typename T>
-TranslationMatrix<T>::TranslationMatrix(int n, int m, T x, T y, T z) : Matrix<T>(n, m)
+TranslationMatrix::TranslationMatrix(int n, int m, float x, float y, float z) : Matrix(n, m)
 {
 	for (int i = 0; i < n; i++)
 		(*this)(i, i) = 1;
@@ -21,7 +18,6 @@ TranslationMatrix<T>::TranslationMatrix(int n, int m, T x, T y, T z) : Matrix<T>
 	(*this)(2, 3) = z;
 }
 
-template <typename T>
-TranslationMatrix<T>::~TranslationMatrix()
+TranslationMatrix::~TranslationMatrix()
 {
 }

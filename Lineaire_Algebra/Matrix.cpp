@@ -1,113 +1,226 @@
 #include "Matrix.h"
-#include "Coordinate.h"
-#include "Graphics.h"
+#include "Vector.h"
 
-Matrix::Matrix()
+Matrix::Matrix() : Matrix(1, 1)
 {
-	for (int i = 0; i < 5; i++)
-	{
-		std::vector<Coordinate*> row;
+}
 
-		for (int j = 0; j < 3; j++)
-		{
-			Coordinate* c = new Coordinate(2, 5);
-			row.push_back(c);
-		}
+Matrix::Matrix(int n, int m) : rows{ n }, collumns{ m }
+{
+	for (int i = 0; i < rows * collumns; i++)
+		elements.emplace_back(float(0));
+}
 
-		matrix.push_back(row);
-	}
+Matrix::Matrix(const Matrix& other)
+{
+	this->elements = other.elements;
+	this->rows = other.rows;
+	this->collumns = other.collumns;
 }
 
 Matrix::~Matrix()
 {
 }
 
-Matrix::Matrix(const Matrix& other)
+float& Matrix::operator()(int row, int col)
 {
-	for (auto& c : other.coordinates)
-		coordinates.emplace_back(std::make_unique<Coordinate>(c->getCoordinate().x, c->getCoordinate().y));
-
-	for (auto& row : other.matrix)
-	{
-		for (auto& c : row)
-		{
-			
-		}
-	}
+	return elements[row * collumns + col];
 }
 
-Matrix& Matrix::operator*(int other)
+const float& Matrix::operator()(int row, int col) const
 {
-	for (std::vector<Coordinate*> row : matrix)
-	{
-		for (Coordinate* coordinate : row)
-		{
-			coordinate->changeCoordinates(coordinate->getCoordinate().x * other, coordinate->getCoordinate().y * other);
-		}
-	}
+	return elements[row * collumns + col];
+}
 
+Matrix& Matrix::operator=(const Matrix& other)
+{
+	this->rows = other.rows;
+	this->collumns = other.collumns;
+	this->elements = std::vector<float>(other.elements);
 	return *this;
 }
 
-Matrix& Matrix::operator=(Matrix& other)
+Matrix Matrix::operator+(const Matrix& other)
 {
-	for (int i = 0; i < matrix.size(); i++)
+	Matrix m = *this;
+
+	for (int i = 0; i < m.elements.size(); i++)
+		m.elements.at(i) += other.elements.at(i);
+
+	return m;
+}
+
+void Matrix::operator+=(const Matrix& other)
+{
+	for (int i = 0; i < this->elements.size(); i++)
+		this->elements.at(i) += other.elements.at(i);
+}
+
+Matrix Matrix::operator-(const Matrix& other)
+{
+	Matrix m = *this;
+
+	for (int i = 0; i < m.elements.size(); i++)
+		m.elements.at(i) -= other.elements.at(i);
+
+	return m;
+}
+
+void Matrix::operator-=(const Matrix& other)
+{
+	for (int i = 0; i < this->elements.size(); i++)
+		this->elements.at(i) -= other.elements.at(i);
+}
+
+Matrix Matrix::operator*(const Matrix& other)
+{
+	if (this->collumns != other.rows)
+		return *this;
+	else
 	{
-		for (int j = 0; j < matrix.at(i).size(); j++)
+		Matrix m(this->rows, other.collumns);
+
+		for (int i = 0; i < m.rows; i++)
 		{
-			matrix.at(i).at(j) = new Coordinate(other.matrix.at(i).at(j)->getCoordinate().x, other.matrix.at(i).at(j)->getCoordinate().y);
+			for (int j = 0; j < m.collumns; j++)
+			{
+				float value = 0;
+
+				for (int k = 0; k < (*this).collumns; k++)
+					value += (*this)(i, k) * other(k, j);
+
+				m(i, j) = value;
+			}
 		}
-	}
 
-	return *this;
-}
-
-void Matrix::addCoordinate(std::unique_ptr<Coordinate> coordinate)
-{
-	coordinates.emplace_back(std::move(coordinate));
-}
-
-void Matrix::scale(int s, bool multiply)
-{
-	for (auto& c : coordinates)
-	{
-		c->scale(s, multiply);
+		return m;
 	}
 }
 
-void Matrix::translate(int hor, int ver)
+void Matrix::operator*=(const Matrix& other)
 {
-	for (auto& c : coordinates)
+	if (this->collumns == other.rows)
 	{
-		c->translate(hor, ver);
-	}
-}
+		Matrix m(this->rows, other.collumns);
 
-void Matrix::rotate(int degrees)
-{
-	for (auto& c : coordinates)
-	{
-		c->rotate(degrees);
-	}
-}
-
-void Matrix::draw(const Graphics& graphics, int r, int g, int b) const
-{
-	Coordinate* pC = nullptr;
-	Coordinate* sC = nullptr;
-
-	for (auto& c : coordinates)
-	{
-		if (pC == nullptr)
+		for (int i = 0; i < m.rows; i++)
 		{
-			sC = pC = c.get();
+			for (int j = 0; j < m.collumns; j++)
+			{
+				float value = 0;
+
+				for (int k = 0; k < (*this).collumns; k++)
+					value += (*this)(i, k) * other(k, j);
+
+				m(i, j) = value;
+			}
 		}
-		else
+
+		*this = m;
+	}
+}
+
+Matrix Matrix::operator+(const float& other)
+{
+	Matrix m = *this;
+
+	for (int i = 0; i < m.elements.size(); i++)
+		m.elements.at(i) += other;
+
+	return m;
+}
+
+void Matrix::operator+=(const float& other)
+{
+	for (int i = 0; i < this->elements.size(); i++)
+		this->elements.at(i) += other;
+}
+
+Matrix Matrix::operator-(const float& other)
+{
+	Matrix m = *this;
+
+	for (int i = 0; i < m.elements.size(); i++)
+		m.elements.at(i) -= other;
+
+	return m;
+}
+
+void Matrix::operator-=(const float& other)
+{
+	for (int i = 0; i < this->elements.size(); i++)
+		this->elements.at(i) -= other;
+}
+
+Matrix Matrix::operator*(const float& other)
+{
+	Matrix m = *this;
+
+	for (float& element : m.elements)
+		element *= other;
+
+	return m;
+}
+
+void Matrix::operator*=(const float& other)
+{
+	for (float& element : this->elements)
+		element *= other;
+}
+
+Matrix Matrix::operator/(const float& other)
+{
+	Matrix m = *this;
+
+	for (float& element : m.elements)
+		element /= other;
+
+	return m;
+}
+
+void Matrix::operator/=(const float& other)
+{
+	for (float& element : this->elements)
+		element /= other;
+}
+
+Vector Matrix::operator*(const Vector& other)
+{
+	Matrix m(this->rows, 1);
+	m(0, 0) = other.x;
+	m(0, 1) = other.y;
+	m(0, 2) = other.z;
+
+	for (int i = 3; i < this->rows; i++)
+		m(0, i) = 1;
+
+	Matrix n = *this * m;
+	return Vector(n(0, 0), n(0, 1), n(0, 2));
+}
+
+Matrix operator*(const float& number, const Matrix& other)
+{
+	Matrix m = other;
+
+	for (float& element : m.elements)
+		element *= number;
+
+	return m;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Matrix& other)
+{
+	for (int n = 0; n < other.rows; n++)
+	{
+		for (int m = 0; m < other.collumns; m++)
 		{
-			graphics.drawLine(pC->getCoordinate().x, pC->getCoordinate().y, c->getCoordinate().x, c->getCoordinate().y, r, g, b);
-			pC = c.get();
+			stream << other(n, m);
+			stream << " ";
 		}
+
+		if (n < other.rows - 1)
+			stream << "| ";
 	}
 
-	graphics.drawLine(pC->getCoordinate().x, pC->getCoordinate().y, sC->getCoordinate().x, sC->getCoordinate().y, r, g, b);
+	return stream;
 }

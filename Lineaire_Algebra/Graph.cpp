@@ -10,7 +10,7 @@ Graph::~Graph()
 {
 }
 
-void Graph::addVector(std::unique_ptr<Vector<int>> vector)
+void Graph::addVector(std::unique_ptr<Vector> vector)
 {
 	vectors.emplace_back(std::move(vector));
 }

@@ -2,16 +2,14 @@
 
 #include "Matrix.h"
 
-template <typename T>
-class ScalingMatrix : public Matrix<T>
+class ScalingMatrix : public Matrix
 {
 	public:
-		ScalingMatrix<T>(int n, int m, T x, T y, T z);
+		ScalingMatrix(int n, int m, float x, float y, float z);
 		~ScalingMatrix() override;
 };
 
-template <typename T>
-ScalingMatrix<T>::ScalingMatrix(int n, int m, T x, T y, T z) : Matrix<T>(n, m)
+ScalingMatrix::ScalingMatrix(int n, int m, float x, float y, float z) : Matrix(n, m)
 {
 	(*this)(0, 0) = x;
 	(*this)(1, 1) = y;
@@ -19,7 +17,6 @@ ScalingMatrix<T>::ScalingMatrix(int n, int m, T x, T y, T z) : Matrix<T>(n, m)
 	(*this)(3, 3) = 1;
 }
 
-template <typename T>
-ScalingMatrix<T>::~ScalingMatrix()
+ScalingMatrix::~ScalingMatrix()
 {
 }
