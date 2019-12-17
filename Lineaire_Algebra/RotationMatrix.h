@@ -5,11 +5,11 @@
 class RotationMatrix : public Matrix
 {
 public:
-	RotationMatrix(int n, int m, float radians,  char rotation);
+	RotationMatrix(int n, int m, double radians,  char rotation);
 	~RotationMatrix() override;
 };
 
-RotationMatrix::RotationMatrix(int n, int m, float radians, char rotation) : Matrix(n, m)
+RotationMatrix::RotationMatrix(int n, int m, double radians, char rotation) : Matrix(n, m)
 {
 	for (int i = 0; i < n; i++)
 		(*this)(i, i) = 1;

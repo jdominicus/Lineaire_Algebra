@@ -13,8 +13,8 @@ class Matrix
 		Matrix(const Matrix& other);
 		virtual ~Matrix();
 
-		float& operator()(int n, int m);
-		const float& operator()(int n, int m) const;
+		double& operator()(int n, int m);
+		const double& operator()(int n, int m) const;
 		Matrix& operator=(const Matrix& other);
 
 		Matrix operator+(const Matrix& other);
@@ -24,22 +24,22 @@ class Matrix
 		Matrix operator*(const Matrix& other);
 		void operator*=(const Matrix& other);
 
-		Matrix operator+(const float& other);
-		void operator+=(const float& other);
-		Matrix operator-(const float& other);
-		void operator-=(const float& other);
-		Matrix operator*(const float& other);
-		void operator*=(const float& other);
-		Matrix operator/(const float& other);
-		void operator/=(const float& other);
+		Matrix operator+(const double& other);
+		void operator+=(const double& other);
+		Matrix operator-(const double& other);
+		void operator-=(const double& other);
+		Matrix operator*(const double& other);
+		void operator*=(const double& other);
+		Matrix operator/(const double& other);
+		void operator/=(const double& other);
 
 		Vector operator*(const Vector& other);
 
-		friend Matrix operator*(const float& number, const Matrix& other);
+		friend Matrix operator*(const double& number, const Matrix& other);
 		friend std::ostream& operator<<(std::ostream& stream, const Matrix& other);
 
 	protected:
 		int rows;
 		int collumns;
-		std::vector<float> elements;
+		std::vector<double> elements;
 };

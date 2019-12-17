@@ -5,11 +5,11 @@
 class ScalingMatrix : public Matrix
 {
 	public:
-		ScalingMatrix(int n, int m, float x, float y, float z);
+		ScalingMatrix(int n, int m, double x, double y, double z);
 		~ScalingMatrix() override;
 };
 
-ScalingMatrix::ScalingMatrix(int n, int m, float x, float y, float z) : Matrix(n, m)
+ScalingMatrix::ScalingMatrix(int n, int m, double x, double y, double z) : Matrix(n, m)
 {
 	(*this)(0, 0) = x;
 	(*this)(1, 1) = y;

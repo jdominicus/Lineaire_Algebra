@@ -8,7 +8,7 @@ Matrix::Matrix() : Matrix(1, 1)
 Matrix::Matrix(int n, int m) : rows{ n }, collumns{ m }
 {
 	for (int i = 0; i < rows * collumns; i++)
-		elements.emplace_back(float(0));
+		elements.emplace_back(double(0));
 }
 
 Matrix::Matrix(const Matrix& other)
@@ -22,12 +22,12 @@ Matrix::~Matrix()
 {
 }
 
-float& Matrix::operator()(int row, int col)
+double& Matrix::operator()(int row, int col)
 {
 	return elements[row * collumns + col];
 }
 
-const float& Matrix::operator()(int row, int col) const
+const double& Matrix::operator()(int row, int col) const
 {
 	return elements[row * collumns + col];
 }
@@ -36,7 +36,7 @@ Matrix& Matrix::operator=(const Matrix& other)
 {
 	this->rows = other.rows;
 	this->collumns = other.collumns;
-	this->elements = std::vector<float>(other.elements);
+	this->elements = std::vector<double>(other.elements);
 	return *this;
 }
 
@@ -84,7 +84,7 @@ Matrix Matrix::operator*(const Matrix& other)
 		{
 			for (int j = 0; j < m.collumns; j++)
 			{
-				float value = 0;
+				double value = 0;
 
 				for (int k = 0; k < (*this).collumns; k++)
 					value += (*this)(i, k) * other(k, j);
@@ -107,7 +107,7 @@ void Matrix::operator*=(const Matrix& other)
 		{
 			for (int j = 0; j < m.collumns; j++)
 			{
-				float value = 0;
+				double value = 0;
 
 				for (int k = 0; k < (*this).collumns; k++)
 					value += (*this)(i, k) * other(k, j);
@@ -120,7 +120,7 @@ void Matrix::operator*=(const Matrix& other)
 	}
 }
 
-Matrix Matrix::operator+(const float& other)
+Matrix Matrix::operator+(const double& other)
 {
 	Matrix m = *this;
 
@@ -130,13 +130,13 @@ Matrix Matrix::operator+(const float& other)
 	return m;
 }
 
-void Matrix::operator+=(const float& other)
+void Matrix::operator+=(const double& other)
 {
 	for (int i = 0; i < this->elements.size(); i++)
 		this->elements.at(i) += other;
 }
 
-Matrix Matrix::operator-(const float& other)
+Matrix Matrix::operator-(const double& other)
 {
 	Matrix m = *this;
 
@@ -146,41 +146,41 @@ Matrix Matrix::operator-(const float& other)
 	return m;
 }
 
-void Matrix::operator-=(const float& other)
+void Matrix::operator-=(const double& other)
 {
 	for (int i = 0; i < this->elements.size(); i++)
 		this->elements.at(i) -= other;
 }
 
-Matrix Matrix::operator*(const float& other)
+Matrix Matrix::operator*(const double& other)
 {
 	Matrix m = *this;
 
-	for (float& element : m.elements)
+	for (double& element : m.elements)
 		element *= other;
 
 	return m;
 }
 
-void Matrix::operator*=(const float& other)
+void Matrix::operator*=(const double& other)
 {
-	for (float& element : this->elements)
+	for (double& element : this->elements)
 		element *= other;
 }
 
-Matrix Matrix::operator/(const float& other)
+Matrix Matrix::operator/(const double& other)
 {
 	Matrix m = *this;
 
-	for (float& element : m.elements)
+	for (double& element : m.elements)
 		element /= other;
 
 	return m;
 }
 
-void Matrix::operator/=(const float& other)
+void Matrix::operator/=(const double& other)
 {
-	for (float& element : this->elements)
+	for (double& element : this->elements)
 		element /= other;
 }
 
@@ -198,11 +198,11 @@ Vector Matrix::operator*(const Vector& other)
 	return Vector(n(0, 0), n(0, 1), n(0, 2));
 }
 
-Matrix operator*(const float& number, const Matrix& other)
+Matrix operator*(const double& number, const Matrix& other)
 {
 	Matrix m = other;
 
-	for (float& element : m.elements)
+	for (double& element : m.elements)
 		element *= number;
 
 	return m;

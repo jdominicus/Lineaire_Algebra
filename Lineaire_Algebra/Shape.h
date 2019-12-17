@@ -22,12 +22,12 @@ class Shape
 		void setReferencePoint();
 		void updateReferencePoint();
 
-		void scaleInPlace(float x, float y, float z);
-		void scaleFromPoint(float x, float y, float z, const Vector& point);
+		void scaleInPlace(double x, double y, double z);
+		void scaleFromPoint(double x, double y, double z, const Vector& point);
 			
-		void rotateInPlace(float radians, char axis);
-		void rotateAroundPoint(float radians, char axis, const Vector& point);
-		void rotateAroundAxis(float radians, const Vector& point_1, const Vector& point_2);
+		void rotateInPlace(double radians, char axis);
+		void rotateAroundPoint(double radians, char axis, const Vector& point);
+		void rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2);
 		
 		void draw(Graphics& graphics);
 

@@ -5,14 +5,14 @@ class Matrix;
 class Vector
 {
 	public:
-		Vector(float x, float y, float z);
+		Vector(double x, double y, double z);
 		Vector(const Vector& other);
 		Vector(const Matrix& other);
 		
 	private:
-		float x;
-		float y;
-		float z;
+		double x;
+		double y;
+		double z;
 
 		friend class Matrix;
 
@@ -23,16 +23,16 @@ class Vector
 		void operator+=(const Vector& other);
 		Vector operator-(const Vector& other);
 		void operator-=(const Vector& other);
-		Vector operator*(const float& other);
-		void operator*=(const float& other);
-		Vector operator/(const float& other);
-		void operator/=(const float& other);
+		Vector operator*(const double& other);
+		void operator*=(const double& other);
+		Vector operator/(const double& other);
+		void operator/=(const double& other);
 
-		//friend Vector operator*(const float& number, const Vector& other);
+		//friend Vector operator*(const double& number, const Vector& other);
 		friend std::ostream& operator<<(std::ostream& stream, Vector& other);
 
 		void draw(const Graphics& graphics) const;
-		const float& getX() const;
-		const float& getY() const;
-		const float& getZ() const;
+		const double& getX() const;
+		const double& getY() const;
+		const double& getZ() const;
 };

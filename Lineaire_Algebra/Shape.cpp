@@ -36,7 +36,7 @@ void Shape::setReferencePoint()
 
 void Shape::updateReferencePoint()
 {
-	float reference[3] = { 0,0,0 };
+	double reference[3] = { 0,0,0 };
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 	{
@@ -48,7 +48,7 @@ void Shape::updateReferencePoint()
 	referencePoint = std::make_unique<Vector>(reference[0] / 8, reference[1] / 8, reference[2] / 8);
 }
 
-void Shape::scaleInPlace(float x, float y, float z)
+void Shape::scaleInPlace(double x, double y, double z)
 {
 	TranslationMatrix t1(4, 4, -referencePoint->getX(), -referencePoint->getY(), -referencePoint->getZ());
 	ScalingMatrix s1(4, 4, x, y, x);
@@ -62,7 +62,7 @@ void Shape::scaleInPlace(float x, float y, float z)
 	updateReferencePoint();
 }
 
-void Shape::scaleFromPoint(float x, float y, float z, const Vector& point)
+void Shape::scaleFromPoint(double x, double y, double z, const Vector& point)
 {
 	TranslationMatrix t1(4, 4, -point.getX(), -point.getY(), -point.getZ());
 	ScalingMatrix s1(4, 4, x, y, x);
@@ -76,7 +76,7 @@ void Shape::scaleFromPoint(float x, float y, float z, const Vector& point)
 	updateReferencePoint();
 }
 
-void Shape::rotateInPlace(float radians, char axis)
+void Shape::rotateInPlace(double radians, char axis)
 {
 	TranslationMatrix t1(4, 4, -referencePoint->getX(), -referencePoint->getY(), -referencePoint->getZ());
 	RotationMatrix r1(4, 4, radians, axis);
@@ -90,7 +90,7 @@ void Shape::rotateInPlace(float radians, char axis)
 	updateReferencePoint();
 }
 
-void Shape::rotateAroundPoint(float radians, char axis, const Vector& point)
+void Shape::rotateAroundPoint(double radians, char axis, const Vector& point)
 {
 	TranslationMatrix t1(4, 4, -point.getX(), -point.getY(), -point.getZ());
 	RotationMatrix r1(4, 4, radians, axis);
@@ -104,13 +104,13 @@ void Shape::rotateAroundPoint(float radians, char axis, const Vector& point)
 	updateReferencePoint();
 }
 
-void Shape::rotateAroundAxis(float radians, const Vector& point_1, const Vector& point_2)
+void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2)
 {
 	auto newVector = std::make_unique<Vector>(point_2.getX() - point_1.getX(), point_2.getY() - point_1.getY(), point_2.getZ() - point_1.getZ());
-	float length = sqrt(pow(newVector->getX(), 2) + pow(newVector->getY(), 2) + pow(newVector->getZ(), 2)); // Lenght of vector
+	double length = sqrt(pow(newVector->getX(), 2) + pow(newVector->getY(), 2) + pow(newVector->getZ(), 2)); // Lenght of vector
 
-	float angle_1 = atan((point_2.getZ() - point_1.getZ()) / (point_2.getX() - point_1.getX())); // Rotation to XY Surface
-	float angle_2 = -asin((point_2.getY() - point_1.getY()) / length); // Rotation to X Axis
+	double angle_1 = atan((point_2.getZ() - point_1.getZ()) / (point_2.getX() - point_1.getX())); // Rotation to XY Surface
+	double angle_2 = -asin((point_2.getY() - point_1.getY()) / length); // Rotation to X Axis
 
 	//T angle_1 = 0.78539816339744828;
 	//T angle_2 = -0.78539816339744828;
