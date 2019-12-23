@@ -107,13 +107,8 @@ void Shape::rotateAroundPoint(double radians, char axis, const Vector& point)
 void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2)
 {
 	auto newVector = std::make_unique<Vector>(point_2.getX() - point_1.getX(), point_2.getY() - point_1.getY(), point_2.getZ() - point_1.getZ());
-	double length = sqrt(pow(newVector->getX(), 2) + pow(newVector->getY(), 2) + pow(newVector->getZ(), 2)); // Lenght of vector
-
-	double angle_1 = atan((point_2.getZ() - point_1.getZ()) / (point_2.getX() - point_1.getX())); // Rotation to XY Surface
-	double angle_2 = -asin((point_2.getY() - point_1.getY()) / length); // Rotation to X Axis
-
-	//T angle_1 = 0.78539816339744828;
-	//T angle_2 = -0.78539816339744828;
+	double angle_1 = acos(newVector->angle(Vector(newVector->getX(), newVector->getY(), 0)));
+	double angle_2 = acos(newVector->angle(Vector(1, 0, 0)));
 
 	TranslationMatrix t1(4, 4, -point_1.getX(), -point_1.getY(), -point_1.getZ());
 	RotationMatrix r1(4, 4, angle_1, 'Y');
@@ -124,7 +119,6 @@ void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector
 	TranslationMatrix t2(4, 4, point_1.getX(), point_1.getY(), point_1.getZ());
 
 	Matrix m = t2 * r5 * r4 * r3 * r2 * r1 * t1;
-	//Matrix<T> m = r2 * r1 * t1;
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		** it = m * **it;

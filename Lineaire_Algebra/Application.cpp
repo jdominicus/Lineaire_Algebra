@@ -39,6 +39,11 @@ Application::Application() : running{ true }
 	s1->addConnection(2, 6);
 	s1->addConnection(3, 7);
 	s1->setReferencePoint();
+
+	Vector v1(2, 3, 4);
+	Vector v2(5, 6, 7);
+	double angle = v1.angle(v2);
+	std::cout << angle << std::endl;
 }
 
 Application::~Application()
@@ -92,16 +97,16 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			s1->scaleInPlace(0.5f, 0.5f, 0.5f); 
 			break;
 		case KeyEvent::Left:
-			s1->rotateAroundAxis(2 * pi / 32, *(std::make_unique<Vector>(-100, 1000, 50)), *(std::make_unique<Vector>(-100, 1010, 50)));
+			s1->rotateAroundAxis(2 * pi / 32, *(std::make_unique<Vector>(-1000, 50, 50)), *(std::make_unique<Vector>(-1025, 50, 50)));
 			break;
 		case KeyEvent::Right:
-			s1->rotateAroundAxis(-2 * pi / 32, *(std::make_unique<Vector>(-100, 1000, 50)), *(std::make_unique<Vector>(-100, 1010, 50)));
+			s1->rotateAroundAxis(-2 * pi / 32, *(std::make_unique<Vector>(-1000, 50, 50)), *(std::make_unique<Vector>(-1025, 50, 50)));
 			break;
 		case KeyEvent::F1:
-			s1->rotateAroundPoint(2 * pi / 32, 'Y', *(std::make_unique<Vector>(0, 0, 0)));
+			s1->rotateAroundPoint(2 * pi / 32, 'Y', *(std::make_unique<Vector>(50, 50, 50)));
 			break;
 		case KeyEvent::F2:
-			s1->rotateAroundPoint(-2 * pi / 32, 'Y', *(std::make_unique<Vector>(0, 0, 0)));
+			s1->rotateAroundPoint(-2 * pi / 32, 'Y', *(std::make_unique<Vector>(50, 50, 50)));
 			break;
 		case KeyEvent::F3:
 			s1->rotateInPlace(2 * pi / 32, 'Y');

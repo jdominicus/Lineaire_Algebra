@@ -19,6 +19,11 @@ class Vector
 	public:
 		Vector& operator=(const Vector& other);
 
+		Vector crossProduct(const Vector& other);
+		double dotProduct(const Vector& other);
+		double magnitude() const;
+		double angle(const Vector& other);
+
 		Vector operator+(const Vector& other);
 		void operator+=(const Vector& other);
 		Vector operator-(const Vector& other);

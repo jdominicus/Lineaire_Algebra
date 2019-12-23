@@ -27,6 +27,29 @@ Vector& Vector::operator=(const Vector& other)
 	return *this;
 }
 
+Vector Vector::crossProduct(const Vector& other)
+{
+	double x_new = y * other.z - z * other.y;
+	double y_new = z * other.x - x * other.z;
+	double z_new = x * other.y - y * other.x;
+	return Vector(x_new, y_new, z_new);
+}
+
+double Vector::dotProduct(const Vector& other)
+{
+	return x * other.x + y * other.y + z * other.z;
+}
+
+double Vector::magnitude() const
+{
+	return sqrt((pow(x, 2) + pow(y,2) + pow(z,2)));
+}
+
+double Vector::angle(const Vector& other)
+{
+	return (dotProduct(other) / (magnitude() * other.magnitude()));
+}
+
 Vector Vector::operator+(const Vector& other)
 {
 	Vector v = *this;
