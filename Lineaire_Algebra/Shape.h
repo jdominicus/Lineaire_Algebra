@@ -5,8 +5,10 @@
 #include <memory>
 #include <utility>
 #include <iostream>
+#include "SDL2/SDL.h"
 
 class Vector;
+class Camera;
 class Graphics;
 
 class Shape
@@ -29,6 +31,8 @@ class Shape
 		void rotateInPlace(double radians, char axis);
 		void rotateAroundPoint(double radians, char axis, const Vector& point);
 		void rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2);
+
+		void update(SDL_Renderer& renderer, Camera& camera);
 		
 		void draw(Graphics& graphics);
 

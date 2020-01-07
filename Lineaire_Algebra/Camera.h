@@ -16,6 +16,12 @@ public:
 
 	void drawInWindow(SDL_Renderer& renderer, Vector& vector1, Vector& vector2);
 
+	void moveX(float amount);
+
+	void moveY(float amount);
+
+	void moveZ(float amount);
+
 private:
 	Matrix projectionMatrix_;
 	Vector position_;

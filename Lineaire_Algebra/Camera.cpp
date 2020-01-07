@@ -2,10 +2,11 @@
 #include "Vector.h"
 #include "Matrix.h"
 #include <corecrt_math_defines.h>
+#include "SDL2/SDL.h"
 
-Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0,0,0 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 100 }
+Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0 ,0, 0 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 100 }
 {
-	this->addVector(std::make_unique<Vector>(0, 1.5, 1));
+	this->addVector(std::make_unique<Vector>(0, 0, 1));
 	double povyRad = fovy_ / 180.0 * static_cast<double>(M_PI);
 	double scale = near_ * tan(povyRad * 0.5);
 
@@ -21,7 +22,7 @@ Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0,0,0 }, fovy_
 Matrix Camera::lookatMatrix()
 {
 	Vector eye_{ position_.getX(), position_.getY(), position_.getZ() };
-	eye_ = eye_ - Vector{ 0,0,0 };
+	eye_ -= Vector{ 0,0,0 };
 
 	Vector direction = eye_;
 	direction.normalize();
@@ -37,13 +38,13 @@ Matrix Camera::lookatMatrix()
 
 	Matrix m{ 4, 4 };
 	m(0, 0) = right.getX();
-	m(0, 1) = direction.getX();
-	m(0, 2) = up.getX();
+	m(0, 1) = up.getX();
+	m(0, 2) = direction.getX();
 	m(1, 0) = right.getY();
-	m(1, 0) = direction.getY();
-	m(1, 0) = up.getY();
+	m(1, 1) = up.getY();
+	m(1, 2) = direction.getY();
 	m(2, 0) = right.getZ();
-	m(2, 0) = up.getZ();
+	m(2, 1) = up.getZ();
 	m(2, 2) = direction.getZ();
 	m(3, 0) = -right.dotProduct(position_);
 	m(3, 1) = -up.dotProduct(position_);
@@ -81,7 +82,26 @@ void Camera::drawInWindow(SDL_Renderer& renderer, Vector& vector1, Vector& vecto
 		double x2 = projectionResultMatrix2(0, 0) / projectionResultMatrix2(3, 0);
 		double y2 = projectionResultMatrix2(1, 0) / projectionResultMatrix2(3, 0);
 
-		SDL_RenderDrawLine(&renderer, 300 + x1 * 60, 300 + y1 * -60, 300 + x2 * 60, 300 + y2 * -60);
+		SDL_SetRenderDrawColor(&renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+		SDL_RenderDrawLine(&renderer, 300 + x1 * 150, 300 + y1 * -150, 300 + x2 * 150, 300 + y2 * -150);
 	}
+}
+
+void Camera::moveX(float amount)
+{
+	position_.setX(position_.getX() + amount);
+	getVectors()[0]->setX(position_.getX());
+}
+
+void Camera::moveY(float amount)
+{
+	position_.setY(position_.getY() + amount);
+	getVectors()[0]->setY(position_.getY());
+}
+
+void Camera::moveZ(float amount)
+{
+	position_.setZ(position_.getZ() + amount);
+	getVectors()[0]->setZ(position_.getZ());
 }
 

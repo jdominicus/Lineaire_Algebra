@@ -4,6 +4,7 @@
 #include "TranslationMatrix.h"
 #include "ScalingMatrix.h"
 #include "RotationMatrix.h"
+#include "Camera.h"
 
 Shape::Shape() : referencePoint(nullptr)
 {
@@ -129,6 +130,14 @@ void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector
 		** it = m * **it;
 
 	updateReferencePoint();
+}
+
+void Shape::update(SDL_Renderer& renderer, Camera& camera)
+{
+	for (const std::pair<Vector*, Vector*>& edge : connections)
+	{
+		camera.drawInWindow(renderer, *edge.first, *edge.second);
+	}
 }
 
 void Shape::draw(Graphics& graphics)
