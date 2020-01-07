@@ -29,6 +29,11 @@ Vector* Shape::getReferencePoint()
 	return referencePoint.get();
 }
 
+std::vector<std::unique_ptr<Vector>>& Shape::getVectors()
+{
+	return vectors;
+}
+
 void Shape::setReferencePoint()
 {
 	updateReferencePoint();

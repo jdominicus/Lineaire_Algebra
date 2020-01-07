@@ -19,6 +19,7 @@ class Shape
 		void addConnection(int index_1, int index_2);
 
 		Vector* getReferencePoint();
+		std::vector<std::unique_ptr<Vector>>& getVectors();
 		void setReferencePoint();
 		void updateReferencePoint();
 
