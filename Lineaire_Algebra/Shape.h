@@ -17,10 +17,13 @@ class Shape
 
 		void addVector(std::unique_ptr<Vector> vector);
 		void addConnection(int index_1, int index_2);
+		std::vector<std::unique_ptr<Vector>>& getVectors();
 
 		Vector* getReferencePoint();
 		void setReferencePoint();
 		void updateReferencePoint();
+
+		void translate(double x, double y, double z);
 
 		void scaleInPlace(double x, double y, double z);
 		void scaleFromPoint(double x, double y, double z, const Vector& point);

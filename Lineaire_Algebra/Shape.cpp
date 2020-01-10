@@ -4,6 +4,7 @@
 #include "TranslationMatrix.h"
 #include "ScalingMatrix.h"
 #include "RotationMatrix.h"
+#include <corecrt_math_defines.h>
 
 Shape::Shape() : referencePoint(nullptr)
 {
@@ -24,6 +25,11 @@ void Shape::addConnection(int index_1, int index_2)
 	connections.insert(pair);
 }
 
+std::vector<std::unique_ptr<Vector>>& Shape::getVectors()
+{
+	return vectors;
+}
+
 Vector* Shape::getReferencePoint()
 {
 	return referencePoint.get();
@@ -38,14 +44,26 @@ void Shape::updateReferencePoint()
 {
 	double reference[3] = { 0,0,0 };
 
-	for (auto it = vectors.begin(); it != vectors.end(); ++it)
+	for (int i = 0; i < vectors.size(); i++)
 	{
-		reference[0] += (*it)->getX();
-		reference[1] += (*it)->getY();
-		reference[2] += (*it)->getZ();
+		reference[0] += vectors.at(i)->getX();
+		reference[1] += vectors.at(i)->getY();
+		reference[2] += vectors.at(i)->getZ();
 	}
 
-	referencePoint = std::make_unique<Vector>(reference[0] / 8, reference[1] / 8, reference[2] / 8);
+	referencePoint = std::make_unique<Vector>(reference[0] / vectors.size(), reference[1] / vectors.size(), reference[2] / vectors.size());
+}
+
+void Shape::translate(double x, double y, double z)
+{
+	TranslationMatrix t1(4, 4, x, y, z);
+	
+	Matrix m = t1;
+
+	for (auto it = vectors.begin(); it != vectors.end(); ++it)
+		** it = m * **it;
+
+	updateReferencePoint();
 }
 
 void Shape::scaleInPlace(double x, double y, double z)
@@ -104,17 +122,18 @@ void Shape::rotateAroundPoint(double radians, char axis, const Vector& point)
 	updateReferencePoint();
 }
 
-void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2)
+void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2) // point_1 = translatedPoint, point_2 is rotatedPoint
 {
 	auto newVector = std::make_unique<Vector>(point_2.getX() - point_1.getX(), point_2.getY() - point_1.getY(), point_2.getZ() - point_1.getZ());
-	double angle_1 = acos(newVector->angle(Vector(newVector->getX(), newVector->getY(), 0)));
-	double angle_2 = acos(newVector->angle(Vector(1, 0, 0)));
+	
+	double angle_1 = newVector->getX() != 0 ? atan(newVector->getZ() / newVector->getX()) : 0;
+	double angle_2 = acos(sqrt(pow(newVector->getX(), 2) + pow(newVector->getZ(), 2)) / sqrt(pow(newVector->getX(), 2) + pow(newVector->getY(), 2) + pow(newVector->getZ(), 2)));
 
 	TranslationMatrix t1(4, 4, -point_1.getX(), -point_1.getY(), -point_1.getZ());
 	RotationMatrix r1(4, 4, angle_1, 'Y');
-	RotationMatrix r2(4, 4, angle_2, 'Z');
+	RotationMatrix r2(4, 4, -angle_2, 'Z');
 	RotationMatrix r3(4, 4, radians, 'X');
-	RotationMatrix r4(4, 4, -angle_2, 'Z');
+	RotationMatrix r4(4, 4, angle_2, 'Z');
 	RotationMatrix r5(4, 4, -angle_1, 'Y');
 	TranslationMatrix t2(4, 4, point_1.getX(), point_1.getY(), point_1.getZ());
 

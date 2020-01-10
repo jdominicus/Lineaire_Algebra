@@ -17,6 +17,13 @@ KeyEvent::KeyEvent(const SDL_Event& sdlKeyEvent)
 		case SDLK_F4: key_ = F4; break;
 		case SDLK_F5: key_ = F5; break;
 		case SDLK_F6: key_ = F6; break;
+		case SDLK_q: key_ = Q; break;
+		case SDLK_e: key_ = E; break;
+		case SDLK_a: key_ = A; break;
+		case SDLK_d: key_ = D; break;
+		case SDLK_w: key_ = W; break;
+		case SDLK_s: key_ = S; break;
+		case SDLK_LSHIFT: key_ = Shift; break;
 	}
 }
 

@@ -10,6 +10,8 @@ class Graphics;
 class Graph;
 class Shape;
 class Matrix;
+class Planet;
+class Ship;
 
 class Application : public ApplicationListener, public KeyListener
 {
@@ -19,7 +21,7 @@ class Application : public ApplicationListener, public KeyListener
 		void start();
 		void quit();
 		void render();
-		void update();
+		void update(double time);
 
 		void onKeyDown(KeyEvent& keyEvent);
 		void onKeyUp(KeyEvent& keyEvent);
@@ -31,8 +33,12 @@ class Application : public ApplicationListener, public KeyListener
 
 		std::unique_ptr<Matrix> matrix;
 		std::unique_ptr<Graph> graph;
-		std::unique_ptr<Shape> s1;
 
 		const double pi = 3.14159265359;
+
+		std::unique_ptr<Planet> planet_;
+		std::unique_ptr<Ship> ship_;
+
+		friend Ship;
 };
 
