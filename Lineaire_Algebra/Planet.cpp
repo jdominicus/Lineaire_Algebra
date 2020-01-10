@@ -1,33 +1,33 @@
 #include "Planet.h"
 #include "Shape.h"
+#include "Camera.h"
 #include "Vector.h"
 
 Planet::Planet() : growing_{ true }, radius_{ 50 }
 {
-	shape_ = std::make_unique<Shape>();
-	shape_->addVector(std::make_unique<Vector>(50, 50, -50));
-	shape_->addVector(std::make_unique<Vector>(50, 50, -100));
-	shape_->addVector(std::make_unique<Vector>(100, 50, -100));
-	shape_->addVector(std::make_unique<Vector>(100, 50, -50));
-	shape_->addVector(std::make_unique<Vector>(50, 100, -50));
-	shape_->addVector(std::make_unique<Vector>(50, 100, -100));
-	shape_->addVector(std::make_unique<Vector>(100, 100, -100));
-	shape_->addVector(std::make_unique<Vector>(100, 100, -50));
+	addVector(std::make_unique<Vector>(10, 0, -40));
+	addVector(std::make_unique<Vector>(10, 0, -50));
+	addVector(std::make_unique<Vector>(20, 0, -50));
+	addVector(std::make_unique<Vector>(20, 0, -40));
+	addVector(std::make_unique<Vector>(10, 10, -40));
+	addVector(std::make_unique<Vector>(10, 10, -50));
+	addVector(std::make_unique<Vector>(20, 10, -50));
+	addVector(std::make_unique<Vector>(20, 10, -40));
 
-	shape_->addConnection(0, 1);
-	shape_->addConnection(1, 2);
-	shape_->addConnection(2, 3);
-	shape_->addConnection(3, 0);
-	shape_->addConnection(4, 5);
-	shape_->addConnection(5, 6);
-	shape_->addConnection(6, 7);
-	shape_->addConnection(7, 4);
-	shape_->addConnection(0, 4);
-	shape_->addConnection(1, 5);
-	shape_->addConnection(2, 6);
-	shape_->addConnection(3, 7);
-	
-	shape_->setReferencePoint();
+	addConnection(0, 1);
+	addConnection(1, 2);
+	addConnection(2, 3);
+	addConnection(3, 0);
+	addConnection(4, 5);
+	addConnection(5, 6);
+	addConnection(6, 7);
+	addConnection(7, 4);
+	addConnection(0, 4);
+	addConnection(1, 5);
+	addConnection(2, 6);
+	addConnection(3, 7);
+
+	updateColor(0, 255, 0);
 }
 
 Planet::~Planet()
@@ -39,20 +39,23 @@ void Planet::update(float time)
 {
 	time_ += time;
 
-	if (time_ >= 1000)
+	if (time_ >= 500)
 	{
 		time_ = 0;
 		growing_ = !growing_;
 	}
 
 	if (growing_)
-		shape_->scaleInPlace(1 + time / 1000, 1 + time / 1000, 1 + time / 1000);
+		scaleFromPoint(1 + time / 2000, 1 + time / 2000, 1 + time / 2000, *std::make_unique<Vector>(15, 5, -65));
 
 	if (!growing_)
-		shape_->scaleInPlace(1 - time / 1000, 1 - time / 1000, 1 - time / 1000);
+		scaleFromPoint(1 - time / 2000, 1 - time / 2000, 1 - time / 2000, *std::make_unique<Vector>(15, 5, -65));
 }
 
-void Planet::draw(Graphics& graphics)
+void Planet::update(SDL_Renderer& renderer, Camera& camera)
 {
-	shape_->draw(graphics);
+	/*camera.drawInWindow(renderer, *position_.get(), *getVectors()[3].get(), 0, 255, 0);
+	camera.drawInWindow(renderer, *position_.get(), *getVectors()[1].get(), 0, 255, 0);
+	camera.drawInWindow(renderer, *position_.get(), *getVectors()[2].get(), 0, 255, 0);*/
+	Shape::update(renderer, camera);
 }

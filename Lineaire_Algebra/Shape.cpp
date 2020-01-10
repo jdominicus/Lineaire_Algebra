@@ -4,12 +4,13 @@
 #include "TranslationMatrix.h"
 #include "ScalingMatrix.h"
 #include "RotationMatrix.h"
-#include <corecrt_math_defines.h>
 #include "Camera.h"
+#include <memory>
+#include <corecrt_math_defines.h>
 
-Shape::Shape() : referencePoint(nullptr)
+Shape::Shape() : position_{ std::make_unique<Vector>(0, 0, 0) }, r_{ 255 }, g_{ 255 }, b_{ 255 }
 {
-	position_ = std::make_unique<Vector>(0, 0, 0);
+
 }
 
 Shape::~Shape()
@@ -27,38 +28,31 @@ void Shape::addConnection(int index_1, int index_2)
 	connections.insert(pair);
 }
 
+Vector& Shape::position()
+{
+	return *position_.get();
+}
+
+void Shape::updatePosition()
+{
+	Vector vector;
+
+	for (auto it = vectors.begin(); it != vectors.end(); ++it)
+		vector += **it;
+
+	position_ = std::make_unique<Vector>(vector / vectors.size());
+}
+
+void Shape::updateColor(int r, int g, int b)
+{
+	r_ = r;
+	g_ = g;
+	b_ = b;
+}
+
 std::vector<std::unique_ptr<Vector>>& Shape::getVectors()
 {
 	return vectors;
-}
-
-Vector* Shape::getReferencePoint()
-{
-	return referencePoint.get();
-}
-
-void Shape::setReferencePoint()
-{
-	updateReferencePoint();
-}
-
-void Shape::updateReferencePoint()
-{
-	double reference[3] = { 0,0,0 };
-
-	for (int i = 0; i < vectors.size(); i++)
-	{
-		reference[0] += vectors.at(i)->getX();
-		reference[1] += vectors.at(i)->getY();
-		reference[2] += vectors.at(i)->getZ();
-	}
-
-	referencePoint = std::make_unique<Vector>(reference[0] / vectors.size(), reference[1] / vectors.size(), reference[2] / vectors.size());
-}
-
-Vector Shape::position()
-{
-	return *referencePoint.get();
 }
 
 void Shape::translate(double x, double y, double z)
@@ -69,22 +63,6 @@ void Shape::translate(double x, double y, double z)
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		** it = m * **it;
-
-	updateReferencePoint();
-}
-
-void Shape::scaleInPlace(double x, double y, double z)
-{
-	TranslationMatrix t1(4, 4, -referencePoint->getX(), -referencePoint->getY(), -referencePoint->getZ());
-	ScalingMatrix s1(4, 4, x, y, x);
-	TranslationMatrix t2(4, 4, referencePoint->getX(), referencePoint->getY(), referencePoint->getZ());
-
-	Matrix m = t2 * s1 * t1;
-
-	for (auto it = vectors.begin(); it != vectors.end(); ++it)
-		** it = m * **it;
-
-	updateReferencePoint();
 }
 
 void Shape::scaleFromPoint(double x, double y, double z, const Vector& point)
@@ -97,8 +75,6 @@ void Shape::scaleFromPoint(double x, double y, double z, const Vector& point)
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		** it = m * **it;
-
-	updateReferencePoint();
 }
 
 void Shape::rotateInPlace(double radians, char axis)
@@ -111,8 +87,6 @@ void Shape::rotateInPlace(double radians, char axis)
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		** it = m * **it;
-
-	updateReferencePoint();
 }
 
 void Shape::rotateAroundPoint(double radians, char axis, const Vector& point)
@@ -125,8 +99,6 @@ void Shape::rotateAroundPoint(double radians, char axis, const Vector& point)
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		** it = m * **it;
-
-	updateReferencePoint();
 }
 
 void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2) // point_1 = translatedPoint, point_2 is rotatedPoint
@@ -148,20 +120,10 @@ void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		** it = m * **it;
-
-	updateReferencePoint();
 }
 
 void Shape::update(SDL_Renderer& renderer, Camera& camera)
 {
 	for (const std::pair<Vector*, Vector*>& edge : connections)
-	{
-		camera.drawInWindow(renderer, *edge.first, *edge.second);
-	}
-}
-
-void Shape::draw(Graphics& graphics)
-{
-	for (auto it = connections.begin(); it != connections.end(); ++it)
-		graphics.drawLine(it->first->getX(), it->first->getY(), it->first->getZ(), it->second->getX(), it->second->getY(), it->second->getZ());
+		camera.drawInWindow(renderer, *edge.first, *edge.second, r_, g_, b_);
 }

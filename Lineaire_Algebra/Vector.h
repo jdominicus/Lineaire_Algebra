@@ -6,13 +6,14 @@ class Vector
 {
 	public:
 		Vector(double x, double y, double z);
+		Vector();
 		Vector(const Vector& other);
 		Vector(const Matrix& other);
 		
 	private:
-		double x;
-		double y;
-		double z;
+		double x_;
+		double y_;
+		double z_;
 
 		friend class Matrix;
 
@@ -22,9 +23,8 @@ class Vector
 		Vector crossProduct(const Vector& other);
 		double dotProduct(const Vector& other);
 		double magnitude() const;
-		void normalize();
-		double length() const;
 		double angle(const Vector& other);
+		void normalize();
 
 		Vector operator+(const Vector& other);
 		void operator+=(const Vector& other);
@@ -42,7 +42,7 @@ class Vector
 		const double& getX() const;
 		const double& getY() const;
 		const double& getZ() const;
-		void setX(double dx) { x = dx; };
-		void setY(double dy) { y = dy; };
-		void setZ(double dz) { z = dz; };
+		void setX(double x) { x_ = x; };
+		void setY(double y) { y_ = y; };
+		void setZ(double z) { z_ = z; };
 };

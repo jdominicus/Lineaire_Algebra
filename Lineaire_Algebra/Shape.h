@@ -17,23 +17,15 @@ class Shape
 		Shape();
 		~Shape();
 
-
-		std::unique_ptr<Vector> position_;
-
 		void addVector(std::unique_ptr<Vector> vector);
 		void addConnection(int index_1, int index_2);
-		std::vector<std::unique_ptr<Vector>>& getVectors();
 
-		Vector* getReferencePoint();
+		Vector& position();
+		virtual void updatePosition();
+		void updateColor(int r, int g, int b);
 		std::vector<std::unique_ptr<Vector>>& getVectors();
-		void setReferencePoint();
-		void updateReferencePoint();
 
 		void translate(double x, double y, double z);
-
-		Vector position();
-
-		void scaleInPlace(double x, double y, double z);
 		void scaleFromPoint(double x, double y, double z, const Vector& point);
 			
 		void rotateInPlace(double radians, char axis);
@@ -42,12 +34,14 @@ class Shape
 
 		virtual void update(SDL_Renderer& renderer, Camera& camera);
 		
-		void draw(Graphics& graphics);
+		std::unique_ptr<Vector> position_;
 
-	private:
+	protected:
 		std::vector<std::unique_ptr<Vector>> vectors;
 		std::multimap<Vector*, Vector*> connections;
 		std::unique_ptr<Vector> referencePoint;
 
-		const double pi = 3.14159265359;
+		int r_;
+		int g_;
+		int b_;
 };

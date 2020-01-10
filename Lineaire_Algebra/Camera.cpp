@@ -4,9 +4,9 @@
 #include <corecrt_math_defines.h>
 #include "SDL2/SDL.h"
 
-Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0 ,1.5, 1 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 100 }
+Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0 , 5, -5 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 100 }
 {
-	this->addVector(std::make_unique<Vector>(0, 1.5, 1));
+	this->addVector(std::make_unique<Vector>(0, 5, -5));
 	double povyRad = fovy_ / 180.0 * static_cast<double>(M_PI);
 	double scale = near_ * tan(povyRad * 0.5);
 
@@ -54,7 +54,7 @@ Matrix Camera::lookatMatrix()
 	return m;
 }
 
-void Camera::drawInWindow(SDL_Renderer& renderer, Vector& vector1, Vector& vector2)
+void Camera::drawInWindow(SDL_Renderer& renderer, Vector& vector1, Vector& vector2, int r, int g, int b)
 {
 	Matrix vector1Matrix{ 4, 1 };
 	vector1Matrix(0, 0) = vector1.getX();
@@ -82,7 +82,7 @@ void Camera::drawInWindow(SDL_Renderer& renderer, Vector& vector1, Vector& vecto
 		double x2 = projectionResultMatrix2(0, 0) / projectionResultMatrix2(3, 0);
 		double y2 = projectionResultMatrix2(1, 0) / projectionResultMatrix2(3, 0);
 
-		SDL_SetRenderDrawColor(&renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+		SDL_SetRenderDrawColor(&renderer, r, g, b, SDL_ALPHA_OPAQUE);
 		SDL_RenderDrawLine(&renderer, 300 + x1 * 60, 300 + y1 * -60, 300 + x2 * 60, 300 + y2 * -60);
 	}
 }

@@ -1,14 +1,16 @@
 #pragma once
 #include <memory>
+#include "Shape.h"
+
 class Shape;
 class Graphics;
-class Ship
+
+class Ship : public Shape
 {
 public:
 	Ship();
 	~Ship();
 	void update(float time);
-	void draw(Graphics& graphics);
 
 	void accelerate(float time);
 	void barrelRollLeft(float time);
@@ -27,9 +29,5 @@ public:
 	bool turnRight_;
 	bool moveUp_;
 	bool moveDown_;
-
-private:
-	std::unique_ptr<Shape> shape_;
-	const double pi = 3.14159265359;
 };
 

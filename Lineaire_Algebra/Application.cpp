@@ -21,12 +21,7 @@ Application::Application() : running{ true }
 	graph = std::make_unique<Graph>();
 	planet_ = std::make_unique<Planet>();
 	ship_ = std::make_unique<Ship>();
-	camera_->setLookat(ship.get());
-	
-	Vector v1(2, 3, 4);
-	Vector v2(5, 6, 7);
-	double angle = v1.angle(v2);
-	std::cout << angle << std::endl;
+	camera_->setLookat(ship_.get());
 }
 
 Application::~Application()
@@ -63,20 +58,15 @@ void Application::quit()
 
 void Application::render()
 {
-	//graphics->drawAxis();
-
-	//s1->update(*graphics->getRenderer(), *camera_.get());
-	ship->update(*graphics->getRenderer(), *camera_.get());
-	//s3->update(*graphics->getRenderer(), *camera_.get());
-	/*graphics->drawAxis();
-	planet_->draw(*graphics);
-	ship_->draw(*graphics);*/
+	planet_->update(*graphics->getRenderer(), *camera_.get());
+	ship_->update(*graphics->getRenderer(), *camera_.get());
 }
 
 void Application::update(double time)
 {
 	planet_->update(time);
 	ship_->update(time);
+	camera_->setLookat(ship_.get());
 }
 
 void Application::onKeyDown(KeyEvent& keyEvent)
@@ -87,38 +77,16 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			graphics->changeView(); 
 			break;
 		case KeyEvent::Up:
-			camera_->moveZ(0.1);
-			//s1->scaleInPlace(2, 2, 2); 
+			camera_->moveZ(0.5);
 			break;
 		case KeyEvent::Down:
-			camera_->moveZ(-0.1);
-			//s1->scaleInPlace(0.5f, 0.5f, 0.5f); 
+			camera_->moveZ(-0.5);
 			break;
 		case KeyEvent::Left:
-			camera_->moveX(-0.1);
-			//s1->rotateAroundAxis(2 * pi / 32, *(std::make_unique<Vector>(-1000, 50, 50)), *(std::make_unique<Vector>(-1025, 50, 50)));
+			camera_->moveX(-0.5);
 			break;
 		case KeyEvent::Right:
-			camera_->moveX(0.1);
-			//s1->rotateAroundAxis(-2 * pi / 32, *(std::make_unique<Vector>(-1000, 50, 50)), *(std::make_unique<Vector>(-1025, 50, 50)));
-			break;
-		case KeyEvent::F1:
-			//s1->rotateAroundPoint(2 * pi / 32, 'Y', *(std::make_unique<Vector>(50, 50, 50)));
-			break;
-		case KeyEvent::F2:
-			//s1->rotateAroundPoint(-2 * pi / 32, 'Y', *(std::make_unique<Vector>(50, 50, 50)));
-			break;
-		case KeyEvent::F3:
-			//s1->rotateInPlace(2 * pi / 32, 'Y');
-			break;
-		case KeyEvent::F4:
-			//s1->rotateInPlace(-2 * pi / 32, 'Y');
-			break;
-		case KeyEvent::F5:
-			//s1->scaleFromPoint(2, 2, 2, *(std::make_unique<Vector>(250, 250, 250)));
-			break;
-		case KeyEvent::F6:
-			//s1->scaleFromPoint(0.5f, 0.5f, 0.5f, *(std::make_unique<Vector>(250, 250, 250)));
+			camera_->moveX(0.5);
 			break;
 
 		case KeyEvent::Q:

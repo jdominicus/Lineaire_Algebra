@@ -187,9 +187,9 @@ void Matrix::operator/=(const double& other)
 Vector Matrix::operator*(const Vector& other)
 {
 	Matrix m(this->rows, 1);
-	m(0, 0) = other.x;
-	m(0, 1) = other.y;
-	m(0, 2) = other.z;
+	m(0, 0) = other.x_;
+	m(0, 1) = other.y_;
+	m(0, 2) = other.z_;
 
 	for (int i = 3; i < this->rows; i++)
 		m(0, i) = 1;

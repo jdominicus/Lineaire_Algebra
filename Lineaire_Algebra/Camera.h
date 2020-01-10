@@ -14,7 +14,7 @@ public:
 	Camera();
 	Matrix lookatMatrix();
 
-	void drawInWindow(SDL_Renderer& renderer, Vector& vector1, Vector& vector2);
+	void drawInWindow(SDL_Renderer& renderer, Vector& vector1, Vector& vector2, int r, int g, int b);
 
 	void moveX(float amount);
 

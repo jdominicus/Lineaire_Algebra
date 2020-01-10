@@ -1,62 +1,52 @@
 #include "Vector.h"
 #include "Matrix.h"
 
-Vector::Vector(double x, double y, double z) : x{ x }, y{ y }, z{ z }
+Vector::Vector(double x, double y, double z) : x_{ x }, y_{ y }, z_{ z }
+{
+}
+
+Vector::Vector() : Vector(0, 0, 0)
 {
 }
 
 Vector::Vector(const Vector& other)
 {
-	y = other.y;
-	x = other.x;
-	z = other.z;
+	y_ = other.y_;
+	x_ = other.x_;
+	z_ = other.z_;
 }
 
 Vector::Vector(const Matrix& other)
 {
-	x = other(0, 0);
-	y = other(1, 0);
-	z = other(2, 0);
+	x_ = other(0, 0);
+	y_ = other(1, 0);
+	z_ = other(2, 0);
 }
 
 Vector& Vector::operator=(const Vector& other)
 {
-	x = other.x;
-	y = other.y;
-	z = other.z;
+	x_ = other.x_;
+	y_ = other.y_;
+	z_ = other.z_;
 	return *this;
 }
 
 Vector Vector::crossProduct(const Vector& other)
 {
-	double x_new = y * other.z - z * other.y;
-	double y_new = z * other.x - x * other.z;
-	double z_new = x * other.y - y * other.x;
-	return Vector(x_new, y_new, z_new);
+	double x = y_ * other.z_ - z_ * other.y_;
+	double y = z_ * other.x_ - x_ * other.z_;
+	double z = x_ * other.y_ - y_ * other.x_;
+	return Vector(x, y, z);
 }
 
 double Vector::dotProduct(const Vector& other)
 {
-	return x * other.x + y * other.y + z * other.z;
+	return x_ * other.x_ + y_ * other.y_ + z_ * other.z_;
 }
 
 double Vector::magnitude() const
 {
-	return sqrt((pow(x, 2) + pow(y,2) + pow(z,2)));
-}
-
-double Vector::length() const
-{
-	return sqrt(x * x + y * y + z * z);
-}
-
-void Vector::normalize()
-{
-	const double vLength = length();
-
-	x /= vLength;
-	y /= vLength;
-	z /= vLength;
+	return sqrt((pow(x_, 2) + pow(y_,2) + pow(z_,2)));
 }
 
 double Vector::angle(const Vector& other)
@@ -64,68 +54,77 @@ double Vector::angle(const Vector& other)
 	return (dotProduct(other) / (magnitude() * other.magnitude()));
 }
 
+void Vector::normalize()
+{
+	const double vLength = magnitude();
+
+	x_ /= vLength;
+	y_ /= vLength;
+	z_ /= vLength;
+}
+
 Vector Vector::operator+(const Vector& other)
 {
 	Vector v = *this;
-	v.x += other.x;
-	v.y += other.y;
-	v.z += other.z;
+	v.x_ += other.x_;
+	v.y_ += other.y_;
+	v.z_ += other.z_;
 	return v;
 }
 
 void Vector::operator+=(const Vector& other)
 {
-	x += other.x;
-	y += other.y;
-	z += other.z;
+	x_ += other.x_;
+	y_ += other.y_;
+	z_ += other.z_;
 }
 
 Vector Vector::operator-(const Vector& other)
 {
 	Vector v = *this;
-	v.x -= other.x;
-	v.y -= other.y;
-	v.z -= other.z;
+	v.x_ -= other.x_;
+	v.y_ -= other.y_;
+	v.z_ -= other.z_;
 	return v;
 }
 
 void Vector::operator-=(const Vector& other)
 {
-	x -= other.x;
-	y -= other.y;
-	z -= other.z;
+	x_ -= other.x_;
+	y_ -= other.y_;
+	z_ -= other.z_;
 }
 
 Vector Vector::operator*(const double& other)
 {
 	Vector v = *this;
-	v.x *= other;
-	v.y *= other;
-	v.z *= other;
+	v.x_ *= other;
+	v.y_ *= other;
+	v.z_ *= other;
 	return v;
 }
 
 void Vector::operator*=(const double& other)
 {
-	x *= other;
-	y *= other;
-	z *= other;
+	x_ *= other;
+	y_ *= other;
+	z_ *= other;
 }
 
 Vector Vector::operator/(const double& other)
 {
 	Vector v = *this;
-	v.x /= other;
-	v.y /= other;
-	v.z /= other;
+	v.x_ /= other;
+	v.y_ /= other;
+	v.z_ /= other;
 	return v;
 }
 
 void Vector::operator/=(const double& other)
 {
-	x /= other;
-	y /= other;
-	z /= other;
+	x_ /= other;
+	y_ /= other;
+	z_ /= other;
 }
 
 //Vector operator*(const double& number, Vector& other)
@@ -135,26 +134,26 @@ void Vector::operator/=(const double& other)
 
 std::ostream& operator<<(std::ostream& stream, Vector& other)
 {
-	stream << other.x << " " << other.y << " " << other.z;
+	stream << other.x_ << " " << other.y_ << " " << other.z_;
 	return stream;
 }
 
 void Vector::draw(const Graphics& graphics) const
 {
-	graphics.drawVector((int)x, (int)y, (int)z);
+	graphics.drawVector((int)x_, (int)y_, (int)z_);
 }
 
 const double& Vector::getX() const
 {
-	return x;
+	return x_;
 }
 
 const double& Vector::getY() const
 {
-	return y;
+	return y_;
 }
 
 const double& Vector::getZ() const
 {
-	return z;
+	return z_;
 }
