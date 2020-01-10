@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ApplicationListener.h"
+#include "Camera.h"
 #include "KeyListener.h"
 
 #include <memory>
@@ -32,6 +33,7 @@ class Application : public ApplicationListener, public KeyListener
 		std::unique_ptr<Graphics> graphics;
 
 		std::unique_ptr<Matrix> matrix;
+		std::unique_ptr<Camera> camera_;
 		std::unique_ptr<Graph> graph;
 
 		const double pi = 3.14159265359;

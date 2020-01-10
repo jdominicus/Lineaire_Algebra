@@ -5,9 +5,11 @@
 #include "ScalingMatrix.h"
 #include "RotationMatrix.h"
 #include <corecrt_math_defines.h>
+#include "Camera.h"
 
 Shape::Shape() : referencePoint(nullptr)
 {
+	position_ = std::make_unique<Vector>(0, 0, 0);
 }
 
 Shape::~Shape()
@@ -52,6 +54,11 @@ void Shape::updateReferencePoint()
 	}
 
 	referencePoint = std::make_unique<Vector>(reference[0] / vectors.size(), reference[1] / vectors.size(), reference[2] / vectors.size());
+}
+
+Vector Shape::position()
+{
+	return *referencePoint.get();
 }
 
 void Shape::translate(double x, double y, double z)
@@ -143,6 +150,14 @@ void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector
 		** it = m * **it;
 
 	updateReferencePoint();
+}
+
+void Shape::update(SDL_Renderer& renderer, Camera& camera)
+{
+	for (const std::pair<Vector*, Vector*>& edge : connections)
+	{
+		camera.drawInWindow(renderer, *edge.first, *edge.second);
+	}
 }
 
 void Shape::draw(Graphics& graphics)

@@ -45,6 +45,20 @@ double Vector::magnitude() const
 	return sqrt((pow(x, 2) + pow(y,2) + pow(z,2)));
 }
 
+double Vector::length() const
+{
+	return sqrt(x * x + y * y + z * z);
+}
+
+void Vector::normalize()
+{
+	const double vLength = length();
+
+	x /= vLength;
+	y /= vLength;
+	z /= vLength;
+}
+
 double Vector::angle(const Vector& other)
 {
 	return (dotProduct(other) / (magnitude() * other.magnitude()));

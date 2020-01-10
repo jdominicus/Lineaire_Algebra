@@ -1,12 +1,13 @@
 #include "Ship.h"
 #include "Shape.h"
 #include "Vector.h"
+#include "Camera.h"
 #include <memory>
 
 Ship::Ship() : accelerate_{ false }, barrelRollLeft_{ false }, barrelRollRight_{ false }, moveUp_{ false }, moveDown_{false}
 {
 	shape_ = std::make_unique<Shape>();
-	shape_->addVector(std::make_unique<Vector>(50, 50, 50)); // 0 - Tip
+	/*shape_->addVector(std::make_unique<Vector>(50, 50, 50)); // 0 - Tip
 	shape_->addVector(std::make_unique<Vector>(25, 50, 100)); // 1 - Back-left
 	shape_->addVector(std::make_unique<Vector>(75, 50, 100)); // 2 - Back-right
 	shape_->addVector(std::make_unique<Vector>(50, 75, 100)); // 3 - Up
@@ -17,9 +18,19 @@ Ship::Ship() : accelerate_{ false }, barrelRollLeft_{ false }, barrelRollRight_{
 	shape_->addConnection(0, 3);
 	shape_->addConnection(1, 2);
 	shape_->addConnection(1, 3);
-	shape_->addConnection(2, 3);
+	shape_->addConnection(2, 3);*/
 
-	shape_->setReferencePoint();
+	addVector(std::make_unique<Vector>(-0.5, 0, 0));
+	addVector(std::make_unique<Vector>(0.5, 0, 0));
+	addVector(std::make_unique<Vector>(0, 0, -1));
+	addVector(std::make_unique<Vector>(0, 0.5, 0));
+
+	addConnection(0, 1);
+	addConnection(0, 2);
+	addConnection(0, 3);
+	addConnection(1, 2);
+	addConnection(1, 3);
+	addConnection(2, 3);
 }
 
 Ship::~Ship()
@@ -94,4 +105,12 @@ void Ship::shoot(float time)
 void Ship::draw(Graphics& graphics)
 {
 	shape_->draw(graphics);
+}
+
+void Ship::update(SDL_Renderer& renderer, Camera& camera)
+{
+	camera.drawInWindow(renderer, *position_.get(), *getVectors()[3].get());
+	camera.drawInWindow(renderer, *position_.get(), *getVectors()[1].get());
+	camera.drawInWindow(renderer, *position_.get(), *getVectors()[2].get());
+	Shape::update(renderer, camera);
 }

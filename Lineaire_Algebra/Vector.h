@@ -22,6 +22,8 @@ class Vector
 		Vector crossProduct(const Vector& other);
 		double dotProduct(const Vector& other);
 		double magnitude() const;
+		void normalize();
+		double length() const;
 		double angle(const Vector& other);
 
 		Vector operator+(const Vector& other);
@@ -40,4 +42,7 @@ class Vector
 		const double& getX() const;
 		const double& getY() const;
 		const double& getZ() const;
+		void setX(double dx) { x = dx; };
+		void setY(double dy) { y = dy; };
+		void setZ(double dz) { z = dz; };
 };

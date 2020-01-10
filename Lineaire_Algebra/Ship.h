@@ -18,6 +18,7 @@ public:
 	void moveUp(float time);
 	void moveDown(float time);
 	void shoot(float time);
+	void update(SDL_Renderer& renderer, Camera& camera) override;
 
 	bool accelerate_;
 	bool barrelRollLeft_;
