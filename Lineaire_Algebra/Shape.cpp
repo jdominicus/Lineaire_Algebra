@@ -8,6 +8,7 @@
 
 Shape::Shape() : referencePoint(nullptr)
 {
+	position_ = std::make_unique<Vector>(0, 0, 0);
 }
 
 Shape::~Shape()
@@ -51,7 +52,12 @@ void Shape::updateReferencePoint()
 		reference[2] += (*it)->getZ();
 	}
 
-	referencePoint = std::make_unique<Vector>(reference[0] / 8, reference[1] / 8, reference[2] / 8);
+	referencePoint = std::make_unique<Vector>(reference[0] / vectors.size(), reference[1] / vectors.size(), reference[2] / vectors.size());
+}
+
+Vector Shape::position()
+{
+	return *referencePoint.get();
 }
 
 void Shape::scaleInPlace(double x, double y, double z)

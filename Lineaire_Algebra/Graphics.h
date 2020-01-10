@@ -15,8 +15,8 @@ class Graphics
 
 	private:
 		static const int FRAMES_PER_SECOND = 60;
-		static const int SCREEN_WIDTH = 1280;
-		static const int SCREEN_HEIGHT = 720;
+		static const int SCREEN_WIDTH = 600;
+		static const int SCREEN_HEIGHT = 600;
 		int frameTime;
 		int view;	// Top = 0; Front = 1; Side = 2;
 

@@ -17,6 +17,9 @@ class Shape
 		Shape();
 		~Shape();
 
+
+		std::unique_ptr<Vector> position_;
+
 		void addVector(std::unique_ptr<Vector> vector);
 		void addConnection(int index_1, int index_2);
 
@@ -25,6 +28,8 @@ class Shape
 		void setReferencePoint();
 		void updateReferencePoint();
 
+		Vector position();
+
 		void scaleInPlace(double x, double y, double z);
 		void scaleFromPoint(double x, double y, double z, const Vector& point);
 			
@@ -32,7 +37,7 @@ class Shape
 		void rotateAroundPoint(double radians, char axis, const Vector& point);
 		void rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2);
 
-		void update(SDL_Renderer& renderer, Camera& camera);
+		virtual void update(SDL_Renderer& renderer, Camera& camera);
 		
 		void draw(Graphics& graphics);
 

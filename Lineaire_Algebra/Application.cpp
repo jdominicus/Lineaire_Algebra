@@ -6,56 +6,22 @@
 #include "Matrix.h"
 #include "Shape.h"
 #include "KeyEvent.h"
+#include "Ship.h"
 
 Application::Application() : running{ true }
 {
 	eventManager = std::make_unique<EventManager>();
 	camera_ = std::make_unique<Camera>();
-	camera_->lookatMatrix();
 	graphics = std::make_unique<Graphics>();
 	eventManager->addApplicationListener(this);
 	eventManager->addKeyListener(this);
 
 	graph = std::make_unique<Graph>();
 
-	s2 = std::make_unique<Shape>();
-	s2->addVector(std::make_unique<Vector>(-0.5, 0, 0));
-	s2->addVector(std::make_unique<Vector>(0.5, 0, 0));
-	s2->addVector(std::make_unique<Vector>(0, 0, -1));
-	s2->addVector(std::make_unique<Vector>(0, 0.5, 0));
+	ship = std::make_unique<Ship>();
 
-	s2->addConnection(0, 1);
-	s2->addConnection(0, 2);
-	s2->addConnection(0, 3);
-	s2->addConnection(1, 2);
-	s2->addConnection(1, 3);
-	s2->addConnection(2, 3);
-
-	s1 = std::make_unique<Shape>();
-	s1->addVector(std::make_unique<Vector>(-25, -25, -75));
-	s1->addVector(std::make_unique<Vector>(-25, -25, -25));
-	s1->addVector(std::make_unique<Vector>(25, -25, -25));
-	s1->addVector(std::make_unique<Vector>(25, -25, -75));
-	s1->addVector(std::make_unique<Vector>(-25, 25, -75));
-	s1->addVector(std::make_unique<Vector>(-25, 25, -25));
-	s1->addVector(std::make_unique<Vector>(25, 25, -25));
-	s1->addVector(std::make_unique<Vector>(25, 25, -75));
-
-	s1->addConnection(0, 1);
-	s1->addConnection(1, 2);
-	s1->addConnection(2, 3);
-	s1->addConnection(3, 0);
-	s1->addConnection(4, 5);
-	s1->addConnection(5, 6);
-	s1->addConnection(6, 7);
-	s1->addConnection(7, 4);
-	s1->addConnection(0, 4);
-	s1->addConnection(1, 5);
-	s1->addConnection(2, 6);
-	s1->addConnection(3, 7);
-	s1->setReferencePoint();
-
-
+	camera_->setLookat(ship.get());
+	
 	Vector v1(2, 3, 4);
 	Vector v2(5, 6, 7);
 	double angle = v1.angle(v2);
@@ -92,7 +58,9 @@ void Application::render()
 {
 	//graphics->drawAxis();
 
-	s1->update(*graphics->getRenderer(), *camera_.get());
+	//s1->update(*graphics->getRenderer(), *camera_.get());
+	ship->update(*graphics->getRenderer(), *camera_.get());
+	//s3->update(*graphics->getRenderer(), *camera_.get());
 }
 
 void Application::update()
@@ -108,11 +76,11 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			graphics->changeView(); 
 			break;
 		case KeyEvent::Up:
-			camera_->moveY(0.1);
+			camera_->moveZ(0.1);
 			//s1->scaleInPlace(2, 2, 2); 
 			break;
 		case KeyEvent::Down:
-			camera_->moveY(-0.1);
+			camera_->moveZ(-0.1);
 			//s1->scaleInPlace(0.5f, 0.5f, 0.5f); 
 			break;
 		case KeyEvent::Left:

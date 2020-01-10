@@ -21,6 +21,8 @@ public:
 	void moveY(float amount);
 
 	void moveZ(float amount);
+	Shape* lookAt;
+	void setLookat(Shape* lookat) { lookAt = lookat; }
 
 private:
 	Matrix projectionMatrix_;

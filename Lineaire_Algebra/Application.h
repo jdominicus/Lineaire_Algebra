@@ -11,6 +11,7 @@ class Graphics;
 class Graph;
 class Shape;
 class Matrix;
+class Ship;
 
 class Application : public ApplicationListener, public KeyListener
 {
@@ -34,6 +35,8 @@ class Application : public ApplicationListener, public KeyListener
 		std::unique_ptr<Camera> camera_;
 		std::unique_ptr<Graph> graph;
 		std::unique_ptr<Shape> s1;
+		std::unique_ptr<Ship> ship;
+		std::unique_ptr<Shape> s3;
 		std::unique_ptr<Shape> s2;
 
 		const double pi = 3.14159265359;
