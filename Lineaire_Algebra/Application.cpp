@@ -74,7 +74,6 @@ void Application::update(double time)
 	ship_->update(time);
 	camera_->setLookat(ship_.get());
 
-
 	for (auto it = projectiles.begin(); it != projectiles.end();)
 	{
 		(*it)->move();

@@ -58,11 +58,11 @@ void Planet::update(float time)
 
 	updatePosition();
 
-	if (hits_ > 50)
+	if (hits_ > 25)
 		destroyed_ = true;
 
 	if (!destroyed_)
-		updateColor(0 + 5 * hits_, 255 - 5 * hits_, 0);
+		updateColor(0 + 10 * hits_, 255 - 10 * hits_, 0);
 }
 
 void Planet::update(SDL_Renderer& renderer, Camera& camera)
