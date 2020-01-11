@@ -33,6 +33,8 @@ class Shape
 		void rotateAroundPoint(double radians, char axis, const Vector& point);
 		void rotateAroundAxis(double radians, const Vector& point_1, const Vector& point_2);
 
+		bool collidesWith(Shape& shape);
+
 		virtual void update(SDL_Renderer& renderer, Camera& camera);
 		
 		std::unique_ptr<Vector> position_;
@@ -45,4 +47,7 @@ class Shape
 		int r_;
 		int g_;
 		int b_;
+
+		bool collidable_;
+		double hitboxRaidus_;
 };

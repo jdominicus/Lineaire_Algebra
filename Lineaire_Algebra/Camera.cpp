@@ -4,9 +4,9 @@
 #include <corecrt_math_defines.h>
 #include "SDL2/SDL.h"
 
-Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0 , 5, -5 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 5 }
+Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0 , 5, -1 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 5 }
 {
-	this->addVector(std::make_unique<Vector>(0, 1, -1));
+	this->addVector(std::make_unique<Vector>(0, 5, -1));
 	double povyRad = fovy_ / 180.0 * static_cast<double>(M_PI);
 	double scale = near_ * tan(povyRad * 0.5);
 

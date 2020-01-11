@@ -74,9 +74,26 @@ void Application::update(double time)
 	ship_->update(time);
 	camera_->setLookat(ship_.get());
 
-	for (auto& projectile : projectiles)
+
+	for (auto it = projectiles.begin(); it != projectiles.end();)
 	{
-		projectile->move();
+		(*it)->move();
+
+		if (abs((*it)->position_->getX()) > 250 || abs((*it)->position_->getY()) > 250 || abs((*it)->position_->getZ() > 250))
+			it = projectiles.erase(it);
+		else
+			++it;			
+	}
+	
+	for (auto it = projectiles.begin(); it != projectiles.end();)
+	{
+		if (planet_->collidesWith(**it))
+		{
+			planet_->hit();
+			it = projectiles.erase(it);
+		}
+		else
+			++it;
 	}
 }
 

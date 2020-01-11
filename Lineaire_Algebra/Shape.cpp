@@ -8,7 +8,7 @@
 #include <memory>
 #include <corecrt_math_defines.h>
 
-Shape::Shape() : position_{ std::make_unique<Vector>(0, 0, 0) }, r_{ 255 }, g_{ 255 }, b_{ 255 }
+Shape::Shape() : position_{ std::make_unique<Vector>(0, 0, 0) }, r_{ 255 }, g_{ 255 }, b_{ 255 }, collidable_{ true }
 {
 
 }
@@ -41,6 +41,16 @@ void Shape::updatePosition()
 		vector += **it;
 
 	position_ = std::make_unique<Vector>(vector / vectors.size());
+
+	int radius = 0;
+	for (auto it = vectors.begin(); it != vectors.end(); ++it)
+	{
+		int distance = sqrt((*it)->getX() - position_->getX() + pow((*it)->getY() - position_->getY(), 2) + pow((*it)->getZ() - position_->getZ(), 2));
+		if (distance > radius)
+			radius = distance;
+	}
+
+	hitboxRaidus_ = radius;
 }
 
 void Shape::updateColor(int r, int g, int b)
@@ -125,6 +135,12 @@ void Shape::rotateAroundAxis(double radians, const Vector& point_1, const Vector
 
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 		** it = m * **it;
+}
+
+bool Shape::collidesWith(Shape& shape)
+{
+	Vector distance = *position_ - *shape.position_;
+	return distance.magnitude() < hitboxRaidus_ + shape.hitboxRaidus_;
 }
 
 void Shape::update(SDL_Renderer& renderer, Camera& camera)

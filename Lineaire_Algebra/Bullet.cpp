@@ -31,4 +31,6 @@ void Bullet::move()
 	{
 		*vector.get() += speedVector;
 	}
+
+	updatePosition();
 }

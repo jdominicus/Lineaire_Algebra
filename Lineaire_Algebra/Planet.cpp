@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Vector.h"
 
-Planet::Planet() : growing_{ true }, radius_{ 50 }
+Planet::Planet() : growing_{ true }, destroyed_{ false }, radius_{ 50 }, hits_{ 0 }
 {
 	addVector(std::make_unique<Vector>(10, 0, -40));
 	addVector(std::make_unique<Vector>(10, 0, -50));
@@ -35,6 +35,11 @@ Planet::~Planet()
 
 }
 
+void Planet::hit()
+{
+	hits_++;
+}
+
 void Planet::update(float time)
 {
 	time_ += time;
@@ -50,6 +55,14 @@ void Planet::update(float time)
 
 	if (!growing_)
 		scaleFromPoint(1 - time / 2000, 1 - time / 2000, 1 - time / 2000, *std::make_unique<Vector>(15, 5, -65));
+
+	updatePosition();
+
+	if (hits_ > 50)
+		destroyed_ = true;
+
+	if (!destroyed_)
+		updateColor(0 + 5 * hits_, 255 - 5 * hits_, 0);
 }
 
 void Planet::update(SDL_Renderer& renderer, Camera& camera)
