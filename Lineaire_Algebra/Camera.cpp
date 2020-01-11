@@ -4,9 +4,9 @@
 #include <corecrt_math_defines.h>
 #include "SDL2/SDL.h"
 
-Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0 , 5, -5 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 100 }
+Camera::Camera() : Shape(), projectionMatrix_{ 4, 4 }, position_{ 0 , 5, -5 }, fovy_{ 90 }, near_{ 0.1 }, far_{ 5 }
 {
-	this->addVector(std::make_unique<Vector>(0, 5, -5));
+	this->addVector(std::make_unique<Vector>(0, 1, -1));
 	double povyRad = fovy_ / 180.0 * static_cast<double>(M_PI);
 	double scale = near_ * tan(povyRad * 0.5);
 
@@ -103,5 +103,25 @@ void Camera::moveZ(float amount)
 {
 	position_.setZ(position_.getZ() + amount);
 	getVectors()[0]->setZ(position_.getZ());
+}
+
+void Camera::rotateHorizontal(double degrees)
+{
+	Vector startPoint{ *lookAt->position_ };
+
+	const Vector endPoint{ startPoint.getX(), startPoint.getY() + 1, startPoint.getZ() };
+
+	rotateAroundAxis(degrees / 180.0 * static_cast<double>(M_PI), startPoint, endPoint);
+
+	position_ = *getVectors()[0];
+}
+
+void Camera::rotateVertical(double degrees)
+{
+	Vector startPoint{ *lookAt->position_ };
+	const Vector endPoint{ startPoint.getX() + 1, startPoint.getY(), startPoint.getZ() };
+	rotateAroundAxis(degrees / 180.0 * static_cast<double>(M_PI), startPoint, endPoint);
+
+	position_ = *getVectors()[0];
 }
 

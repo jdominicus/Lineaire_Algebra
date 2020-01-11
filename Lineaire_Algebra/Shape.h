@@ -24,6 +24,7 @@ class Shape
 		virtual void updatePosition();
 		void updateColor(int r, int g, int b);
 		std::vector<std::unique_ptr<Vector>>& getVectors();
+		std::multimap<Vector*, Vector*>& getConnections();
 
 		void translate(double x, double y, double z);
 		void scaleFromPoint(double x, double y, double z, const Vector& point);

@@ -13,6 +13,7 @@ class Shape;
 class Matrix;
 class Planet;
 class Ship;
+class Bullet;
 
 class Application : public ApplicationListener, public KeyListener
 {
@@ -26,6 +27,8 @@ class Application : public ApplicationListener, public KeyListener
 
 		void onKeyDown(KeyEvent& keyEvent);
 		void onKeyUp(KeyEvent& keyEvent);
+
+		std::vector<std::unique_ptr<Bullet>> projectiles;
 
 	private:
 		bool running;

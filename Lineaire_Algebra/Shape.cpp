@@ -55,6 +55,11 @@ std::vector<std::unique_ptr<Vector>>& Shape::getVectors()
 	return vectors;
 }
 
+std::multimap<Vector*, Vector*>& Shape::getConnections()
+{
+	return connections;
+}
+
 void Shape::translate(double x, double y, double z)
 {
 	TranslationMatrix t1(4, 4, x, y, z);

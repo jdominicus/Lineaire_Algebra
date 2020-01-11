@@ -28,15 +28,16 @@ Ship::~Ship()
 
 }
 
-void Ship::accelerate(float time)
+void Ship::accelerate()
 {
-	auto vector_1 = *vectors.at(0);
-	auto vector_2 = *vectors.at(4);
-	
-	auto newVector = std::make_unique<Vector>(vector_1.getX() - vector_2.getX(), vector_1.getY() - vector_2.getY(), vector_1.getZ() - vector_2.getZ());
-	double speedFactor = time / 250;
+	if (speed < 1)
+		speed += 0.1;
+}
 
-	translate(speedFactor * newVector->getX(), speedFactor * newVector->getY(), speedFactor * newVector->getZ());
+void Ship::deccelerate()
+{
+	if (speed > 0)
+		speed -= 0.1;
 }
 
 void Ship::barrelRollLeft(float time)
@@ -76,8 +77,6 @@ void Ship::shoot(float time)
 
 void Ship::update(float time)
 {
-	if (accelerate_)
-		accelerate(time);
 	if (barrelRollLeft_)
 		barrelRollLeft(time);
 	if (barrelRollRight_)
@@ -92,6 +91,29 @@ void Ship::update(float time)
 		moveDown(time);
 
 	updatePosition();
+}
+
+void Ship::move()
+{
+	Vector v1 = { *vectors.at(0) };
+	Vector v2 = { *vectors.at(4) };
+
+	v1 -= v2;
+	v1.normalize();
+	direction = v1;
+
+	v1 *= (0.1 * speed);
+	speedVector = v1;
+
+	*position_.get() += speedVector;
+
+	for (auto& vector : vectors)
+	{
+		*vector.get() += speedVector;
+	}
+
+	if (speed > 0)
+		speed -= 0.0001;
 }
 
 void Ship::update(SDL_Renderer& renderer, Camera& camera)

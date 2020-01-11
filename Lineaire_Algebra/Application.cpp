@@ -8,6 +8,7 @@
 #include "KeyEvent.h"
 #include "Planet.h"
 #include "Ship.h"
+#include "Bullet.h"
 #include <chrono>
 
 Application::Application() : running{ true }
@@ -60,13 +61,23 @@ void Application::render()
 {
 	planet_->update(*graphics->getRenderer(), *camera_.get());
 	ship_->update(*graphics->getRenderer(), *camera_.get());
+	for (auto& projectile : projectiles)
+	{
+		projectile->update(*graphics->getRenderer(), *camera_.get());
+	}
 }
 
 void Application::update(double time)
 {
 	planet_->update(time);
+	ship_->move();
 	ship_->update(time);
 	camera_->setLookat(ship_.get());
+
+	for (auto& projectile : projectiles)
+	{
+		projectile->move();
+	}
 }
 
 void Application::onKeyDown(KeyEvent& keyEvent)
@@ -74,13 +85,13 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 	switch (keyEvent.key())
 	{
 		case KeyEvent::Space:
-			graphics->changeView(); 
+			projectiles.emplace_back(std::make_unique<Bullet>(ship_.get()));
 			break;
 		case KeyEvent::Up:
-			camera_->moveZ(0.5);
+			camera_->moveZ(-0.5);
 			break;
 		case KeyEvent::Down:
-			camera_->moveZ(-0.5);
+			camera_->moveZ(0.5);
 			break;
 		case KeyEvent::Left:
 			camera_->moveX(-0.5);
@@ -88,7 +99,18 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 		case KeyEvent::Right:
 			camera_->moveX(0.5);
 			break;
-
+		case KeyEvent::F1:
+			camera_->rotateHorizontal(-10);
+			break;
+		case KeyEvent::F2:
+			camera_->rotateHorizontal(10);
+			break;
+		case KeyEvent::F3:
+			camera_->rotateVertical(-10);
+			break;
+		case KeyEvent::F4:
+			camera_->rotateVertical(10);
+			break;
 		case KeyEvent::Q:
 			ship_->barrelRollLeft_ = true;
 			break;
@@ -108,7 +130,7 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			ship_->moveDown_ = true;
 			break;
 		case KeyEvent::Shift:
-			ship_->accelerate_ = true;
+			ship_->accelerate();
 			break;
 	}
 }
