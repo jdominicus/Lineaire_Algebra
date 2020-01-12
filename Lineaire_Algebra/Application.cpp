@@ -86,7 +86,7 @@ void Application::update(double time)
 	
 	for (auto it = projectiles.begin(); it != projectiles.end();)
 	{
-		if (planet_->collidesWith(**it))
+   		if (planet_->collidesWith(**it))
 		{
 			planet_->hit();
 			it = projectiles.erase(it);
@@ -94,6 +94,9 @@ void Application::update(double time)
 		else
 			++it;
 	}
+
+	if (ship_->collidesWith(*planet_))
+		std::cout << "You got hit" << std::endl;
 }
 
 void Application::onKeyDown(KeyEvent& keyEvent)

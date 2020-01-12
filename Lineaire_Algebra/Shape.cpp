@@ -45,7 +45,7 @@ void Shape::updatePosition()
 	int radius = 0;
 	for (auto it = vectors.begin(); it != vectors.end(); ++it)
 	{
-		int distance = sqrt((*it)->getX() - position_->getX() + pow((*it)->getY() - position_->getY(), 2) + pow((*it)->getZ() - position_->getZ(), 2));
+		int distance = sqrt(pow((*it)->getX() - position_->getX(), 2) + pow((*it)->getY() - position_->getY(), 2) + pow((*it)->getZ() - position_->getZ(), 2));
 		if (distance > radius)
 			radius = distance;
 	}
