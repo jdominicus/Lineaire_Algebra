@@ -6,8 +6,8 @@ Bullet::Bullet(Ship* ship)
 {
 	Vector end{ ship->direction };
 
-	addVector(std::make_unique<Vector>(ship->position_->getX(), ship->position_->getY(), ship->position_->getZ()));
-	addVector(std::make_unique<Vector>(end.getX(), end.getY(), end.getZ()));
+	addVector(std::make_unique<Vector>(ship->getVectors()[0]->getX(), ship->getVectors()[0]->getY(), ship->getVectors()[0]->getZ()));
+	addVector(std::make_unique<Vector>(ship->getVectors()[0]->getX() + end.getX(), ship->getVectors()[0]->getY() + end.getY(), ship->getVectors()[0]->getZ() + end.getZ()));
 	addConnection(0, 1);
 
 	speedVector = Vector{ ship->direction };
