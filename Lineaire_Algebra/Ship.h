@@ -32,6 +32,7 @@ public:
 	bool turnRight_;
 	bool moveUp_;
 	bool moveDown_;
+	bool guideLine_;
 	Vector direction;
 	Vector speedVector;
 	double speed;

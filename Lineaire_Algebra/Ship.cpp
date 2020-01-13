@@ -15,7 +15,6 @@ Ship::Ship() : accelerate_{ false }, barrelRollLeft_{ false }, barrelRollRight_{
 	addConnection(0, 1);
 	addConnection(0, 2);
 	addConnection(0, 3);
-	addConnection(1, 2);
 	addConnection(1, 3);
 	addConnection(2, 3);
 
@@ -118,8 +117,17 @@ void Ship::move()
 
 void Ship::update(SDL_Renderer& renderer, Camera& camera)
 {
-	/*camera.drawInWindow(renderer, *position_.get(), *getVectors()[3].get(), 255, 255, 255);
+	camera.drawInWindow(renderer, *position_.get(), *getVectors()[3].get(), 255, 255, 255);
 	camera.drawInWindow(renderer, *position_.get(), *getVectors()[1].get(), 255, 255, 255);
-	camera.drawInWindow(renderer, *position_.get(), *getVectors()[2].get(), 255, 255, 255);*/
+	camera.drawInWindow(renderer, *position_.get(), *getVectors()[2].get(), 255, 255, 255);
+
+	if (guideLine_)
+	{
+		Vector guideLine{ direction };
+
+		guideLine *= 1000;
+
+		camera.drawInWindow(renderer, *vectors.at(0), guideLine, 255, 0, 0);
+	}
 	Shape::update(renderer, camera);
 }

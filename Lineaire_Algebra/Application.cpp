@@ -19,6 +19,7 @@ Application::Application() : running{ true }
 	eventManager->addApplicationListener(this);
 	eventManager->addKeyListener(this);
 
+
 	graph = std::make_unique<Graph>();
 	planet_ = std::make_unique<Planet>();
 	ship_ = std::make_unique<Ship>();
@@ -59,7 +60,9 @@ void Application::quit()
 
 void Application::render()
 {
-	planet_->update(*graphics->getRenderer(), *camera_.get());
+	if (!planet_->isDestroyed()) {
+		planet_->update(*graphics->getRenderer(), *camera_.get());
+	}
 	ship_->update(*graphics->getRenderer(), *camera_.get());
 	for (auto& projectile : projectiles)
 	{
@@ -69,7 +72,9 @@ void Application::render()
 
 void Application::update(double time)
 {
-	planet_->update(time);
+	if (!planet_->isDestroyed()) {
+		planet_->update(time);
+	}
 	ship_->move();
 	ship_->update(time);
 	camera_->setLookat(ship_.get());
@@ -150,6 +155,9 @@ void Application::onKeyDown(KeyEvent& keyEvent)
 			break;
 		case KeyEvent::Shift:
 			ship_->accelerate();
+			break;
+		case KeyEvent::F5:
+			ship_->guideLine_ = !ship_->guideLine_;
 			break;
 	}
 }

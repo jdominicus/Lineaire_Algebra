@@ -13,6 +13,7 @@ class Planet : public Shape, public CollidableShape
 		void hit();
 		void update(float time);
 		void update(SDL_Renderer& renderer, Camera& camera);
+		bool isDestroyed() { return destroyed_; }
 	
 private:
 		bool growing_;
